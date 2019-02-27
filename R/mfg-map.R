@@ -1,6 +1,7 @@
 library(stringr)
 
-map_files <- list.files("../Plate maps/Runs randomization")
+rand_dir <- file.path(MAPS_DIR, "Runs randomization")
+map_files <- list.files(rand_dir)
 
 mfg_maps <- 
   lapply(map_files, 
@@ -11,7 +12,7 @@ mfg_maps <-
            day <- m[[1]]
            shift <- m[[2]]
            
-           full_path <- file.path("../Plate maps/Runs randomization", f)
+           full_path <- file.path(rand_dir, f)
            map <- read.csv(full_path)
 
            return(cbind(Day=day, Shift=shift, map))
@@ -20,4 +21,5 @@ mfg_maps <-
 mfg_map_1 <- do.call(rbind, mfg_maps)
 mfg_map_2 <- na.omit(mfg_map_1)
 
-write.csv(mfg_map_2, "../Plate maps/MfgMap.csv", row.names=FALSE)
+outfile <- file.path(MAPS_DIR, "MfgMap.csv")
+write.csv(mfg_map_2, outfile, row.names=FALSE)

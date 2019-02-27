@@ -10,3 +10,8 @@ packrat/src/*
 # RMarkdown output
 Reports/*.html
 
+# Generated data files
+data/generated/*
+
+# RStudio additions
+.Rproj.user
