@@ -32,5 +32,7 @@ make_runs_map <- function() {
     rbind(mfg_plates, msa_plates, lost_plates) %>%
     arrange(Day, Shift, Run, ID)
     
-  write.csv(runs_map, "../Plate maps/RunsMap.csv", row.names=FALSE)
+  write.csv(runs_map, RUNS_MAP_FILE, row.names=FALSE)
+  
+  return(runs_map)
 }

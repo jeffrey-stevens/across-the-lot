@@ -12,3 +12,4 @@ more structured tibble tables.
 * Created an "R/scripts" directory for one-time scripts; moved
 embedded-msa-assembly.R there.
 * Wrapped the "mfg-map.R" collation script around a function.
+* Migrated additional generated files to data/generated/.  Migrated additional one-time script files to R/scripts.

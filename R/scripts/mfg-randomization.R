@@ -7,4 +7,6 @@ stacks_rand <- sample(stacks)
 # Split into 6 columns
 stacks_rand_2 <- matrix(stacks_rand, ncol=4)
 
-write.csv(stacks_rand_2, "../Plate maps/MfgRandomization.csv", row.names=FALSE)
+
+filename <- file.path(PLATE_MAPS, "MfgRandomization.csv")
+write.csv(stacks_rand_2, filename, row.names=FALSE)

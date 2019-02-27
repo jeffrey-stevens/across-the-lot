@@ -4,7 +4,7 @@ library(dplyr)
 
 
 # Determine the shift ordering from the Readings file
-shift_ordering_map <- function( readings=NULL, .save=TRUE ) {
+shift_ordering_map <- function( readings = NULL, save = TRUE ) {
   
   if ( is.null(readings) ) {
     readings <- get_readings()
@@ -18,9 +18,8 @@ shift_ordering_map <- function( readings=NULL, .save=TRUE ) {
     mutate(RunOrder=seq_len(n()))
   
   # Now save:
-  if ( .save ) {
-    write.csv(shift_order, "../Plate maps/ShiftOrdering.csv",
-              row.names=FALSE)
+  if ( save ) {
+    write.csv(shift_order, RUNS_ORDERING_FILE, row.names=FALSE)
   }
   
   return(shift_order)
