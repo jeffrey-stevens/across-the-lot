@@ -1,5 +1,5 @@
-source("layers.R")
-source("select-wells.R")
+source("R/layers.R")
+source("R/select-wells.R")
 
 
 plot_mfg_2 <- function(mfg_table, mfg_summary=NULL,

@@ -1,4 +1,4 @@
-source("assay-plate-pic.R")
+source("R/assay-plate-pic.R")
 
 
 

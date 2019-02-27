@@ -1,4 +1,4 @@
-source("global.R")
+source("R/global.R")
 
 library(dplyr)
 

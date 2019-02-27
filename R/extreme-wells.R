@@ -1,6 +1,6 @@
 library(ggplot2)
 
-source("global.R")
+source("R/global.R")
 
 library(dplyr)
 

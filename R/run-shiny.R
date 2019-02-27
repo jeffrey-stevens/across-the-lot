@@ -1,16 +1,16 @@
-source("global.R")
+source("R/global.R")
 
-source("stats.R")
+source("R/stats.R")
 
-source("mfg-plot.R")
-source("runs-plot.R")
-source("msa-plot.R")
-source("gradient.R")
-source("ggvis.R")
-source("plate-visualization.R")
+source("R/mfg-plot.R")
+source("R/runs-plot.R")
+source("R/msa-plot.R")
+source("R/gradient.R")
+source("R/ggvis.R")
+source("R/plate-visualization.R")
 
-source("ShinyApp/server.R")
-source("ShinyApp/ui.R")
+source("R/ShinyApp/server.R")
+source("R/ShinyApp/ui.R")
 
 library(shiny)
 

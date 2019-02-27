@@ -13,7 +13,7 @@
 
 
 
-source("parse-wells-expr.R")
+source("R/parse-wells-expr.R")
 
 library(ggplot2)
 library(gridExtra)

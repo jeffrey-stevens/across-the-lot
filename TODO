@@ -1,6 +1,6 @@
 * Remove all hard path dependencies
-* Remove dependencies on R_DIR.
 * Move all file "getter" functions into their own file.
+* Move code out of "scripts" folder
 
 * Clean up the directory structure
 
@@ -16,3 +16,4 @@ Bugs
   minimum slidebar.  This is either a problem with grid.draw not
   rendering the plot, or with Shiny not displaying it.  This may be
   due to the dynamic updating behavior of Shiny.
+* "Interactive" tab: Does not display data table any more!

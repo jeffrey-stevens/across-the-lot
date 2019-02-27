@@ -1,4 +1,4 @@
-source("global.R")
+source("R/global.R")
 
 # dplyr conflicts with plyr
 if ( "package:plyr" %in% search() ) {
@@ -162,7 +162,7 @@ z_well_order <- function(stacks, col, nrows=4L, ncols=6L) {
 }
 
 
-source("layers.R")
+source("R/layers.R")
 
 library(ggplot2)
 

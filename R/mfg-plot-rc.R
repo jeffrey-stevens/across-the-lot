@@ -1,4 +1,4 @@
-source("layers.R")
+source("R/layers.R")
 
 library(ggplot2)
 library(R6)
@@ -136,10 +136,3 @@ ODPlot <-
       }
       )
   )
-
-
-
-
-
-
-

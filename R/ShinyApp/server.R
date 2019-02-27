@@ -1,4 +1,4 @@
-source("mfg-plot-2.R")
+source("R/mfg-plot-2.R")
 
 library(shiny)
 library(ggvis)

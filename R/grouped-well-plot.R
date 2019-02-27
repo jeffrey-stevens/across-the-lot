@@ -1,4 +1,4 @@
-source("parse-wells-expr.R")
+source("R/parse-wells-expr.R")
 
 library(plyr)
 library(dplyr)

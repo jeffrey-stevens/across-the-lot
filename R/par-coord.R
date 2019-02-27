@@ -1,4 +1,4 @@
-source("select-wells.R")
+source("R/select-wells.R")
 
 library(GGally)
 library(tidyr)
