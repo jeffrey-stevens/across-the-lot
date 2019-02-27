@@ -1,0 +1,12 @@
+# R and R studio files
+.Rhistory
+.Rdata
+.RProj.user
+
+# Packrat source and binary directories
+packrat/lib*/
+packrat/src/*
+
+# RMarkdown output
+Reports/*.html
+

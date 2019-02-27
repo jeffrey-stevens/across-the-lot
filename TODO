@@ -1,0 +1,18 @@
+* Remove all hard path dependencies
+* Remove dependencies on R_DIR.
+* Move all file "getter" functions into their own file.
+
+* Clean up the directory structure
+
+* Test the recent changes to global.R.  Write test scripts.
+
+
+Bugs
+
+* The variability charts won't display
+* The "interactive" pane sometimes doesn't update; selection has some
+  drawing glitches.
+* Sometimes the plot doesn't update when changing the Mfg plate range
+  minimum slidebar.  This is either a problem with grid.draw not
+  rendering the plot, or with Shiny not displaying it.  This may be
+  due to the dynamic updating behavior of Shiny.

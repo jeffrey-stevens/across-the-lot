@@ -1,0 +1,81 @@
+---
+title: "Wells A11 and H12"
+output: html_document
+---
+
+
+##Find the lowest and highest wells of each plate
+
+```{r echo=FALSE, message=FALSE}
+
+oldwd <- getwd()
+if ( basename(oldwd) == "Reports" ) {
+  setwd("..")
+}
+
+
+source("extreme-wells.R")
+
+```
+
+
+### Lowest wells
+
+Plates binned by lowest well, ordered by well:
+```{r echo=FALSE}
+low_table
+```
+
+
+Lowest wells, ordered by column, then by row:
+```{r echo=FALSE}
+show( plot_extremes(low_table, order="bycol") )
+```
+
+Clearly wells A12, H12 and A2 stand out.
+
+Lowest wells, ordered by row, then by column:
+```{r echo=FALSE}
+show( plot_extremes(low_table, order="byrow") )
+```
+
+
+Plates binned by lowest well, ordered by frequency (top 10 only):
+```{r echo=FALSE}
+head(arrange(low_table, desc(Freq)), n=10)
+```
+
+
+### Highest wells
+
+Plates binned by highest well, ordered by well:
+```{r echo=FALSE}
+high_table
+```
+
+Highest wells, ordered by column, then by row:
+```{r echo=FALSE}
+show( plot_extremes(high_table, order="bycol") )
+```
+
+
+Highest wells, ordered by row, then by column:
+```{r echo=FALSE}
+show( plot_extremes(high_table, order="byrow") )
+```
+
+
+Plates binned by highest well, ordered by frequency (top 10 only):
+```{r echo=FALSE}
+head(arrange(high_table, desc(Freq)), n=10)
+```
+
+Looks like the bottom outside edge has many of the highest wells.
+
+
+```{r echo=FALSE}
+if ( basename(getwd()) == "Reports" ) {
+  setwd(oldwd)
+}
+
+```
