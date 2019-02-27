@@ -1,1 +1,5 @@
+01/11/2019 JRS
+
 * Moved (most) R source files into the "R" directory.
+* Removed irrelevant Powerwave-parsing scripts.  Kept
+  parse-powerwave-2.R, but moved it under the R directory.

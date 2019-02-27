@@ -7,7 +7,7 @@
 library(stringr)
 library(plyr)
 
-source("scripts/parse-powerwave-2.R")
+source("R/parse-powerwave-2.R")
 
 ROOTDIR <- ".."
 DATADIR <- file.path(ROOTDIR, "Data files")

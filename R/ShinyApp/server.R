@@ -139,7 +139,8 @@ build_server <- function(readings, runsmap, msa_table, mfg_table,
     
     output$mfg.active.data <- renderDataTable({ user$sel_df })
     
-    do_brush <- function(items, session, page_loc, plot_loc) {
+    
+    do_brush <- function(items, page_loc, plot_loc, session) {
       if ( is.null(items) || nrow(items) == 0 ) return ()
       
       sel_df <- filter_by_id( mfg_table, items$WellID )
@@ -147,23 +148,25 @@ build_server <- function(readings, runsmap, msa_table, mfg_table,
       user$sel_df <- sel_df
     }
     
-    
-    reactive({
-      xrange <- input$mfg.active.xrange
-      yrange <- input$mfg.active.yrange
-      coloring <- input$mfg.active.coloring
-      
-#       if ( is.null(xrange) || is.na(xrange) ||
-#              is.null(yrange) || is.na(yrange) ||
-#              is.null(coloring) || is.na(coloring) ) {
-#         NULL
-#       } else {
-        plot_mfg_ggvis(mfg_table, xrange=xrange, yrange=yrange,
-                       brushHandler=do_brush,
-                       coloring=coloring)
-      #} 
-    }) %>%
-    bind_shiny( "mfgActivePlot", session=session)
+    p <- 
+      reactive({
+        xrange <- input$mfg.active.xrange
+        yrange <- input$mfg.active.yrange
+        coloring <- input$mfg.active.coloring
+        
+        if ( is.null(xrange) || is.na(xrange) ||
+             is.null(yrange) || is.na(yrange) ||
+             is.null(coloring) || is.na(coloring) ) {
+          NULL
+          
+        } else {
+          plot_mfg_ggvis(mfg_table, xrange=xrange, yrange=yrange,
+                         brushHandler=do_brush,
+                         coloring=coloring)
+        }
+        
+      }) %>%
+      bind_shiny("mfgActivePlot", session=session)
     
     #if ( !is.null(p) ) {
    
