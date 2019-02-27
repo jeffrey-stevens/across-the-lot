@@ -6,6 +6,7 @@
 source("R/global.R")
 
 library(readr)
+library(dplyr)
 
 
 # Functions for loading raw data files ------------------------------------
@@ -28,6 +29,7 @@ get_readings <- function() {
 
 # The record of plates lost during testing
 get_lost_map <- function() {
+  
   read_csv( LOST_PLATES_FILE, col_names = TRUE,
                    col_types = cols( 
                      Day = col_integer(),
@@ -35,7 +37,12 @@ get_lost_map <- function() {
                      Run = col_integer(),
                      Class = col_character(),
                      ID = col_integer() )
-                   )
+                   ) %>%
+    ## Class and ID are redundant!!!  Only the day, shift and run
+    ## are needed here!
+    select(Day, Shift, Run) %>%
+    arrange(Day, Shift, Run)
+  
 }
 
 

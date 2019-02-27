@@ -3,9 +3,14 @@
 # Collate all the individual "Runs randomization" files
 
 
-collate_mfg_maps <- function(outfile = NULL) {
+source("R/global.R")
+
+library(dplyr)
+
+
+collate_mfg_maps <- function(rand_dir = RUNS_RAND_DIR, outfile = NULL) {
   
-  map_files <- list.files(RUNS_RANDOMIZATION)
+  map_files <- list.files(rand_dir)
   
   mfg_maps_list <- 
     lapply(map_files, 
@@ -27,7 +32,9 @@ collate_mfg_maps <- function(outfile = NULL) {
   mfg_map <- 
     mfg_maps_list %>%
     bind_rows() %>%
-    na.omit()
+    na.omit() %>%
+    select(Day, Shift, Run, MfgPlate) %>%
+    arrange(Day, Shift, Run)
   
   if (!is.null(outfile)) {
     write.csv(mfg_map, outfile, row.names=FALSE)

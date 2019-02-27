@@ -13,3 +13,4 @@ more structured tibble tables.
 embedded-msa-assembly.R there.
 * Wrapped the "mfg-map.R" collation script around a function.
 * Migrated additional generated files to data/generated/.  Migrated additional one-time script files to R/scripts.
+* Created a SQLite database from the raw data and mappings files.
