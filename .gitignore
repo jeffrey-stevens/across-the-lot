@@ -1,7 +1,7 @@
 # R and R studio files
-.Rhistory
-.Rdata
-.RProj.user
+**/.Rhistory
+**/.Rdata
+**/.RProj.user
 
 # Packrat source and binary directories
 packrat/lib*/
