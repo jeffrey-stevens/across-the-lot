@@ -52,6 +52,15 @@ get_runs_map <- function() {
 }
 
 
+# Load a *single* mfg map file
+load_mfg_map <- function(filename) {
+  readr::read_csv( filename, col_names = TRUE,
+                   col_types = col( Run = col_integer(),
+                                    MfgPlate = col_integer() )
+                   )
+}
+
+
 get_msa_map <- function() {
   readr::read_csv( MSA_MAP_FILE, col_names = TRUE,
                    col_types = col( MSAPlate = col_integer(),

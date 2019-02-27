@@ -50,6 +50,9 @@ DISCARDED_PLATES_FILE <- file.path( MAPS_DIR, "DiscardedPlates.csv")
 # The record of the runs (day, shift, run-in-shift, plate ID)
 RUNS_MAP_FILE <- file.path( MAPS_DIR, "RunsMap.csv" )
 
+# The "Runs randomization" directory
+RUNS_RAND_DIR <- file.path( MAPS_DIR, "Runs Randomization")
+
 
 # ----- Generated data and mapping files -----
 
