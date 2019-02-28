@@ -11,6 +11,9 @@ library(dplyr)
 
 # Functions for loading raw data files ------------------------------------
 
+
+# ----- Raw data files for the test lot -----
+
 get_readings <- function() {
   read_csv( READINGS_FILE, col_names = TRUE,
                    col_types = cols(
@@ -25,6 +28,17 @@ get_readings <- function() {
                   )
 }
 
+
+get_runs_map <- function() {
+  read_csv( RUNS_MAP_FILE, col_names = TRUE,
+                   col_types = cols( 
+                     Day = col_integer(),
+                     Shift = col_character(),
+                     Run = col_integer(),
+                     ID = col_integer(),
+                     Class = col_character() )
+                  )
+}
 
 
 # The record of plates lost during testing
@@ -49,20 +63,7 @@ get_lost_map <- function() {
 # The record of plates lost during manufacture
 get_discarded_map <- function() {
   read_csv( DISCARDED_PLATES_FILE, col_names = TRUE,
-                   col_types = cols( MfgPlate = col_integer() )
-                  )
-}
-
-
-get_runs_map <- function() {
-  read_csv( RUNS_MAP_FILE, col_names = TRUE,
-                   col_types = cols( 
-                     Day = col_integer(),
-                     Shift = col_character(),
-                     Run = col_integer(),
-                     ID = col_integer(),
-                     Class = col_character() )
-                  )
+                   col_types = cols( MfgPlate = col_integer() ) )
 }
 
 
@@ -71,22 +72,40 @@ load_mfg_map <- function(filename) {
   read_csv( filename, col_names = TRUE,
                    col_types = cols( 
                      Run = col_integer(),
-                     MfgPlate = col_integer() )
-                   )
+                     MfgPlate = col_integer() ) )
 }
 
 
-get_msa_map <- function() {
-  read_csv( MSA_MAP_FILE, col_names = TRUE,
-                   col_types = cols( 
-                     MSAPlate = col_integer(),
-                     AssayStrip = col_integer(),
-                     MfgPlate = col_integer(),
-                     Pool = col_character(),
-                     MfgStrip = col_integer() )
-                   )
+# ----- The MSA pool -----
+
+get_msa_mfg_map <- function() {
+  read_csv( MSA_MFG_FILE, col_names = TRUE,
+            col_types = cols( PoolPlateID = col_integer(),
+                              Pool = col_character(),
+                              MfgPlate = col_integer() ) )
 }
 
+
+get_msa_assembly_map <- function() {
+  read_csv( MSA_ASSEMBLY_FILE, col_names = TRUE,
+            col_types = cols( PoolPlateID = col_integer(),
+                              PoolPlateStrip = col_integer(),
+                              MSAPlate = col_integer(),
+                              AssayStrip = col_integer() ) ) %>%
+    select(MSAPlate, AssayStrip, PoolPlateID, PoolPlateStrip) %>%
+    arrange(MSAPlate, AssayStrip)
+}
+
+
+get_msa_runs_map <- function() {
+  read_csv( MSA_RUNS_FILE, col_names = TRUE,
+            col_types = cols( Day = col_integer(),
+                              Shift = col_character(),
+                              Run = col_integer(),
+                              MSAPlate = col_integer() ) )
+  ## This is somewhat messy...Really you should have 2 tables:  Day shift MSA
+  ## plates and Evening shift MSA plates.
+}
 
 
 
@@ -105,11 +124,23 @@ get_mfg_table <- function() {
 }
 
 
-## Eventually get rid of these two...
+## Eventually get rid of these...
 
 get_mfg_summary <- function() {
   summary_tab <- 
     read.csv(MFG_SUMMARY_FILE)
+}
+
+
+get_msa_map <- function() {
+  read_csv( MSA_MAP_FILE, col_names = TRUE,
+                   col_types = cols( 
+                     MSAPlate = col_integer(),
+                     AssayStrip = col_integer(),
+                     MfgPlate = col_integer(),
+                     Pool = col_character(),
+                     MfgStrip = col_integer() )
+                   )
 }
 
 

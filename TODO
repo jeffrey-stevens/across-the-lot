@@ -1,10 +1,19 @@
+Todos
+=====
+
+Tasks
+
+* Reduce tables to normal form
+* Fix column naming for the MSA plates?
 * Remove all hard path dependencies
-* Move all file "getter" functions into their own file.
-* Move code out of "scripts" folder
+* Reorder MSARunsMap
 
-* Clean up the directory structure
 
-* Test the recent changes to global.R.  Write test scripts.
+Projects
+
+* Migrate all data to a SQLite database
+* Create a testing framework
+* Maybe migrate to an R package
 
 
 Bugs

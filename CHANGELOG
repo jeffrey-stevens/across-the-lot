@@ -21,3 +21,6 @@ embedded-msa-assembly.R there.
 accordingly.
 * Removed the PlateComments.csv file (wasn't complete).
 * Renamed the "data-tables" directory to "raw-data".
+* Moved the MSA "Pool" column from the MSAAssembly table to the MSAMfg table, so
+that it conforms to relational normal form.
+* Added MSA tables to the database.

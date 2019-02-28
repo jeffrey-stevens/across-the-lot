@@ -18,6 +18,9 @@ build_db <- function(filename = DATABASE, overwrite = FALSE) {
   }
 
   con <- DBI::dbConnect(RSQLite::SQLite(), filename)
+  on.exit(DBI::dbDisconnect(con))
+  
+  # ----- The testing lot -----
   
   readings <- get_readings()
   copy_to(con, readings, "Readings", temporary = FALSE, overwrite = overwrite,
@@ -31,11 +34,25 @@ build_db <- function(filename = DATABASE, overwrite = FALSE) {
   copy_to(con, lost_map, "LostMap", temporary = FALSE, overwrite = overwrite,
           indices = c("Day", "Shift", "Run") )
   
-  discarded_map <- get_discarded()
+  discarded_map <- get_discarded_map()
   copy_to(con, discarded_map, "DiscardedMap", temporary = FALSE,
           overwrite = overwrite)
   
+  # ----- The MSA pool -----
   
-  DBI::dbDisconnect(con)
-
+  msa_mfg_map <- get_msa_mfg_map()
+  copy_to(con, msa_mfg_map, "MSAMfgMap",
+          temporary = FALSE, overwrite = overwrite,
+          indices = "PoolPlateID" )
+  
+  msa_assembly_map <- get_msa_assembly_map()
+  copy_to(con, msa_assembly_map, "MSAAssemblyMap",
+          temporary = FALSE, overwrite = overwrite,
+          indices = c("MSAPlate", "AssayStrip") )
+  
+  msa_runs_map <- get_msa_runs_map()
+  copy_to(con, msa_runs_map, "MSARunsMap",
+          temporary = FALSE, overwrite = overwrite,
+          indices = c("Day", "Run") )
+  
 }

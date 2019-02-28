@@ -53,6 +53,8 @@ MSA_MFG_FILE <- file.path( MAPS_DIR, "MSAMfgMap.csv")
 # Map of how the MSA plates were assembled
 MSA_ASSEMBLY_FILE <- file.path( MAPS_DIR, "MSAAssemblyMap.csv")
 
+MSA_RUNS_FILE <- file.path( MAPS_DIR, "MSARunsMap.csv")
+
 
 # The "Runs randomization" directory
 RUNS_RAND_DIR <- file.path( MAPS_DIR, "Runs Randomization")
