@@ -14,3 +14,10 @@ embedded-msa-assembly.R there.
 * Wrapped the "mfg-map.R" collation script around a function.
 * Migrated additional generated files to data/generated/.  Migrated additional one-time script files to R/scripts.
 * Created a SQLite database from the raw data and mappings files.
+
+02/28/2019 JRS
+
+* Moved the generated MSA tables to data/generated/, and adjusted the references
+accordingly.
+* Removed the PlateComments.csv file (wasn't complete).
+* Renamed the "data-tables" directory to "raw-data".

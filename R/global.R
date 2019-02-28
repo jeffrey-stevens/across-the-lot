@@ -26,7 +26,7 @@ message("Implementing a temporary work-around for hard-path dependencies.")
 DATA_DIR <- file.path(ROOT_DIR, "data")
 
 # The location of all intermediate data tables
-DATA_TABLES_DIR <- file.path(DATA_DIR, "data-tables")
+RAW_DATA_DIR <- file.path(DATA_DIR, "raw-data")
 
 # The location of all "mapping" files (plate maps, etc.;
 # basically readings metadata.)
@@ -39,17 +39,20 @@ GENERATED_DIR <- file.path(DATA_DIR, "generated")
 # ----- Raw data and mapping files -----
 
 # The file containing all the raw (unmapped) OD readings
-READINGS_FILE <- file.path(DATA_TABLES_DIR, "Readings.csv")
+READINGS_FILE <- file.path(RAW_DATA_DIR, "Readings.csv")
 
 # The record of plates lost during the testing runs
-LOST_PLATES_FILE <- file.path( MAPS_DIR, "LostPlates.csv")
+LOST_PLATES_FILE <- file.path( RAW_DATA_DIR, "LostPlates.csv")
 
 # The record of plates discarded during the manufacturing run
-DISCARDED_PLATES_FILE <- file.path( MAPS_DIR, "DiscardedPlates.csv")
+DISCARDED_PLATES_FILE <- file.path( RAW_DATA_DIR, "DiscardedPlates.csv")
 
-MSA_ASSEMBLY_FILE <- file.path( MAPS_DIR, "EmbeddedMSAAssemblyMap.csv")
+# Map of "Pool" plates to the plate's manufacturing number
+MSA_MFG_FILE <- file.path( MAPS_DIR, "MSAMfgMap.csv")
 
-MSA_MFG_FILE <- file.path( MAPS_DIR, "EmbeddedMSAMfgMap.csv")
+# Map of how the MSA plates were assembled
+MSA_ASSEMBLY_FILE <- file.path( MAPS_DIR, "MSAAssemblyMap.csv")
+
 
 # The "Runs randomization" directory
 RUNS_RAND_DIR <- file.path( MAPS_DIR, "Runs Randomization")
@@ -71,7 +74,10 @@ MFG_MASTER_FILE <- file.path(GENERATED_DIR, "MfgMastertable.csv")
 MFG_SUMMARY_FILE <- file.path(GENERATED_DIR, "MfgSummary.csv")
 
 # The mapping data for the embedded MSA
-MSA_MAP_FILE <- file.path(MAPS_DIR, "MSAMap.csv") 
+MSA_MAP_FILE <- file.path(GENERATED_DIR, "MSAMap.csv")
+
+# The MSA master map file
+MSA_MASTER_MAP_file <- file.path(GENERATED_DIR, "MSAMastermap.csv")
 
 # The table of mapped MSA data
 MSA_MASTER_FILE <- file.path(GENERATED_DIR, "MSAMastertable.csv") 
