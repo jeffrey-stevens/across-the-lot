@@ -47,6 +47,10 @@ LOST_PLATES_FILE <- file.path( MAPS_DIR, "LostPlates.csv")
 # The record of plates discarded during the manufacturing run
 DISCARDED_PLATES_FILE <- file.path( MAPS_DIR, "DiscardedPlates.csv")
 
+MSA_ASSEMBLY_FILE <- file.path( MAPS_DIR, "EmbeddedMSAAssemblyMap.csv")
+
+MSA_MFG_FILE <- file.path( MAPS_DIR, "EmbeddedMSAMfgMap.csv")
+
 # The "Runs randomization" directory
 RUNS_RAND_DIR <- file.path( MAPS_DIR, "Runs Randomization")
 
