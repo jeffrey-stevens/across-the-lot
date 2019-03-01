@@ -1,6 +1,8 @@
-# TODO: Add comment
-# 
-# Author: jstevens
+# parse-powerwave.R
+#
+# This is a simple parser for raw Biotek Powerwave / Gen5 OD export files.
+# Though I don't have access to the original files, I'll keep this to preserve
+# the entire data processing pipeline.
 ###############################################################################
 
 

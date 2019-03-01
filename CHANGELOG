@@ -24,3 +24,7 @@ accordingly.
 * Moved the MSA "Pool" column from the MSAAssembly table to the MSAMfg table, so
 that it conforms to relational normal form.
 * Added MSA tables to the database.
+
+03/01/2019 JRS
+
+* Tweaked the Powerwave scripts.  Moved them under a "readings" folder.

@@ -1,17 +1,18 @@
-# TODO: Add comment
-# 
-# Author: jstevens
-###############################################################################
+# parse-files.R
+#
+# For collating the raw OD output files from the Biotek Powerwave reader. I no
+# longer have access to the raw Powerwave files, but I'll keep this code to
+# preserve the whole processing pipeline.
 
+source("R/global.R")
+source("R/readings/parse-powerwave.R")
 
 library(stringr)
 library(plyr)
 
-source("R/parse-powerwave-2.R")
 
-ROOTDIR <- ".."
-DATADIR <- file.path(ROOTDIR, "Data files")
-
+# Parse and collect all the raw PowerWave files of a shift into a single list,
+# for collation.
 
 get_all_data <- function(dir) {
   
@@ -30,8 +31,10 @@ get_all_data <- function(dir) {
 }
 
 
-process_data <- function() {
-  data_folders <- list.dirs(DATADIR, full.names=FALSE, recursive=FALSE)
+# Collate all the individual (run-by-run) Powerwave tables.
+
+process_data <- function(datadir, outfile = READINGS_FILE) {
+  data_folders <- list.dirs(datadir, full.names=FALSE, recursive=FALSE)
   
   all_data <- 
     plyr::ldply(data_folders,
@@ -40,7 +43,7 @@ process_data <- function() {
              
              plyr::ldply(c("Day", "Evening"),
                     function(shift) {
-                      dir_path <- file.path(DATADIR, f, shift)
+                      dir_path <- file.path(datadir, f, shift)
                       data_list <- get_all_data(dir_path)
                       # Add the day, the shift, the run
                       plyr::ldply(data_list,
@@ -52,5 +55,5 @@ process_data <- function() {
                     })
            })
   
-  write.csv(all_data, "../Data tables/Readings.csv", row.names=FALSE)
+  write.csv(all_data, outfile, row.names=FALSE)
 }

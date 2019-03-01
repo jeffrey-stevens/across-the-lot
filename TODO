@@ -13,7 +13,12 @@ Projects
 
 * Migrate all data to a SQLite database
 * Create a testing framework
+
+
+Optional
+
 * Maybe migrate to an R package
+* Recreate the Powerwave data files?
 
 
 Bugs
