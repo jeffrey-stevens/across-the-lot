@@ -28,3 +28,5 @@ that it conforms to relational normal form.
 03/01/2019 JRS
 
 * Tweaked the Powerwave scripts.  Moved them under a "readings" folder.
+* Collected all table-building functions under the "build_tables.R" script.
+Added database entries to all generated tables.
