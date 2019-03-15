@@ -162,7 +162,7 @@ z_well_order <- function(stacks, col, nrows=4L, ncols=6L) {
 }
 
 
-source("R/layers.R")
+source("R/plots/layers.R")
 
 library(ggplot2)
 

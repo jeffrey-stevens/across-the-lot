@@ -1,8 +1,8 @@
-source("R/mfg-plot.R")
-source("R/runs-plot.R")
-source("R/msa-plot.R")
+source("R/plots/mfg-plot.R")
+source("R/plots/plots/runs-plot.R")
+source("R/plots/msa-plot.R")
 source("R/gradient.R")
-source("R/ggvis.R")
+source("R/plots/ggvis.R")
 source("R/plate-visualization.R")
 
 source("R/ShinyApp/server.R")

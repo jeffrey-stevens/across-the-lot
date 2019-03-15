@@ -14,8 +14,10 @@ library(dplyr)
 
 # ----- Raw data files for the test lot -----
 
-get_readings <- function() {
-  read_csv( READINGS_FILE, col_names = TRUE,
+get_readings <- function(factorize = TRUE) {
+  # factorize:  Shift to an ordered factor? 
+  
+  tab <- read_csv( READINGS_FILE, col_names = TRUE,
                    col_types = cols(
                      Day = col_integer(),
                      Shift = col_character(),
@@ -26,11 +28,20 @@ get_readings <- function() {
                      A650 = col_double()
                    )
                   )
+  
+  if (factorize) {
+    tab <- 
+      tab %>%
+      mutate(Shift = ordered(Shift, levels = c("Day", "Evening") ))
+  }
+  
+  return(tab)
 }
 
 
-get_runs_map <- function() {
-  read_csv( RUNS_MAP_FILE, col_names = TRUE,
+get_runs_map <- function(factorize = TRUE) {
+  
+  tab <- read_csv( RUNS_MAP_FILE, col_names = TRUE,
                    col_types = cols( 
                      Day = col_integer(),
                      Shift = col_character(),
@@ -38,13 +49,21 @@ get_runs_map <- function() {
                      ID = col_integer(),
                      Class = col_character() )
                   )
+  
+  if (factorize) {
+    tab <- 
+      tab %>%
+      mutate(Shift = ordered(Shift, levels = c("Day", "Evening") ))
+  }
+  
+  return(tab)
 }
 
 
 # The record of plates lost during testing
-get_lost_map <- function() {
+get_lost_map <- function(factorize = TRUE) {
   
-  read_csv( LOST_PLATES_FILE, col_names = TRUE,
+  tab <- read_csv( LOST_PLATES_FILE, col_names = TRUE,
                    col_types = cols( 
                      Day = col_integer(),
                      Shift = col_character(),
@@ -57,6 +76,13 @@ get_lost_map <- function() {
     select(Day, Shift, Run) %>%
     arrange(Day, Shift, Run)
   
+  if (factorize) {
+    tab <- 
+      tab %>%
+      mutate(Shift = ordered(Shift, levels = c("Day", "Evening") ))
+  }
+  
+  return(tab)
 }
 
 
@@ -77,7 +103,7 @@ load_mfg_map <- function(filename) {
 
 
 # Collate all individual (by-shift) "Runs randomization" files.
-collate_mfg_maps <- function(rand_dir = RUNS_RAND_DIR, outfile = NULL) {
+collate_mfg_maps <- function(rand_dir = RUNS_RAND_DIR, factorize = TRUE) {
   
   map_files <- list.files(rand_dir)
   
@@ -105,10 +131,12 @@ collate_mfg_maps <- function(rand_dir = RUNS_RAND_DIR, outfile = NULL) {
     select(Day, Shift, Run, MfgPlate) %>%
     arrange(Day, Shift, Run)
   
-  if (!is.null(outfile)) {
-    write.csv(mfg_map, outfile, row.names=FALSE)
-  }
   
+  if (factorize) {
+    mfg_map <- 
+      mfg_map %>%
+      mutate(Shift = ordered(Shift, levels = c("Day", "Evening") ))
+  }
   
   return(mfg_map)
 }
@@ -136,53 +164,21 @@ get_msa_assembly_map <- function() {
 }
 
 
-get_msa_runs_map <- function() {
-  read_csv( MSA_RUNS_FILE, col_names = TRUE,
-            col_types = cols( Day = col_integer(),
-                              Shift = col_character(),
-                              Run = col_integer(),
-                              MSAPlate = col_integer() ) )
+get_msa_runs_map <- function(factorize = TRUE) {
+  tab <- read_csv( MSA_RUNS_FILE, col_names = TRUE,
+                   col_types = cols( Day = col_integer(),
+                                     Shift = col_character(),
+                                     Run = col_integer(),
+                                     MSAPlate = col_integer() ) )
   ## This is somewhat messy...Really you should have 2 tables:  Day shift MSA
   ## plates and Evening shift MSA plates.
-}
-
-
-
-# Functions for reading generated data files ------------------------------
-
-
-get_mfg_table <- function() {
   
-  mfg_table <- read.csv(MFG_MASTER_FILE)
-  mfg_table[["Well"]] <- 
-    ordered(mfg_table[["Well"]], levels=get_wells()$Well)
-  mfg_table[["Shift"]] <-
-    ordered( mfg_table[["Shift"]], levels=c("Day", "Evening") )
   
-  return(mfg_table)
-}
-
-
-## Eventually get rid of these...
-
-get_mfg_summary <- function() {
-  summary_tab <- 
-    read.csv(MFG_SUMMARY_FILE)
-}
-
-
-get_msa_map <- function() {
-  read_csv( MSA_MAP_FILE, col_names = TRUE,
-                   col_types = cols( 
-                     MSAPlate = col_integer(),
-                     AssayStrip = col_integer(),
-                     MfgPlate = col_integer(),
-                     Pool = col_character(),
-                     MfgStrip = col_integer() )
-                   )
-}
-
-
-get_msa_table <- function() {
-  read.csv(MSA_MASTER_FILE)
+  if (factorize) {
+    tab <- 
+      tab %>%
+      mutate(Shift = ordered(Shift, levels = c("Day", "Evening") ))
+  }
+  
+  return(tab)
 }

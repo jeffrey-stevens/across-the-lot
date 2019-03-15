@@ -1,3 +1,9 @@
+# main.R
+#
+# Entry point to run the Shiny app.
+
+
+source("R/global.R")
 
 
 # I no longer have access to the original Powerwave files, but I'll leave
@@ -7,6 +13,5 @@
 # 
 # process_data()
 
-source("R/msa-map.R")
 
 source("R/run-shiny.R")

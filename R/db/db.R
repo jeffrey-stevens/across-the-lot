@@ -1,6 +1,9 @@
 # db.R
 #
-# Functions for building the SQLite data and mappings database.
+# Functions for building a SQLite database from the data and mappings files.
+#
+# This is for easy exploration of the data set---nothing more.  It isn't
+# strictly needed for the application.
 
 
 source("R/global.R")
@@ -12,7 +15,17 @@ library(dplyr)
 
 
 delete_db <- function(filename = DATABASE) {
-  unlink(DATABASE)
+  
+  if (file.exists(filename)) {
+    res <- unlink(DATABASE, force = TRUE)
+    
+    if (res == 1L) {
+      # You may have to force garbage collection if a connection is left
+      # dangling...
+      gc()
+    }
+  }
+  
 }
 
 
@@ -27,11 +40,11 @@ build_db <- function(filename = DATABASE, overwrite = FALSE) {
   
   # ----- The testing lot -----
   
-  readings <- get_readings()
+  readings <- get_readings(factorize = FALSE)
   copy_to(con, readings, "Readings", temporary = FALSE, overwrite = overwrite,
           indices = c("Day", "Shift", "Run", "AssayRow", "AssayCol") )
   
-  mfg_map <- collate_mfg_maps()
+  mfg_map <- collate_mfg_maps(factorize = FALSE)
   copy_to(con, mfg_map, "MfgMap", temporary = FALSE, overwrite = overwrite,
           indices = c("Day", "Shift", "Run", "MfgPlate") )
   
@@ -55,7 +68,7 @@ build_db <- function(filename = DATABASE, overwrite = FALSE) {
           temporary = FALSE, overwrite = overwrite,
           indices = c("MSAPlate", "AssayStrip") )
   
-  msa_runs_map <- get_msa_runs_map()
+  msa_runs_map <- get_msa_runs_map(factorize = FALSE)
   copy_to(con, msa_runs_map, "MSARunsMap",
           temporary = FALSE, overwrite = overwrite,
           indices = c("Day", "Run") )
@@ -66,12 +79,13 @@ build_db <- function(filename = DATABASE, overwrite = FALSE) {
   # Prefix each derived table with "Gen_" to distinguish them from the "raw"
   # tables.
   
-  shift_order <- build_shift_order_table(readings)
+  shift_order <- build_shift_order_table(readings, factorize = FALSE)
   copy_to(con, shift_order, "Gen_ShiftOrder",
           temporary = FALSE, overwrite = overwrite,
           indices = c("Day", "Shift") )
   
-  mfg_table <- build_mfg_table(readings, mfg_map, shift_order)
+  mfg_table <- build_mfg_table(readings, mfg_map, shift_order,
+                               factorize = FALSE)
   copy_to(con, mfg_table, "Gen_MfgTable",
           temporary = FALSE, overwrite = overwrite,
           indices = c("Day", "Shift", "Run", "WellOrder") )
@@ -87,7 +101,8 @@ build_db <- function(filename = DATABASE, overwrite = FALSE) {
           temporary = FALSE, overwrite = overwrite,
           indices = c("MSAPlate", "AssayStrip") )
   
-  msa_table <- build_msa_table(readings, msa_map, msa_runs_map)
+  msa_table <- build_msa_table(readings, msa_map, msa_runs_map,
+                               factorize = FALSE)
   copy_to(con, msa_table, "Gen_MSATable",
           temporary = FALSE, overwrite = overwrite,
           indices = c("Day", "Shift", "Run", "WellOrder") )

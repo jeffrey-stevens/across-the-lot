@@ -2,11 +2,11 @@ source("R/global.R")
 
 source("R/stats.R")
 
-source("R/mfg-plot.R")
-source("R/runs-plot.R")
-source("R/msa-plot.R")
+source("R/plots/mfg-plot.R")
+source("R/plots/plots/runs-plot.R")
+source("R/plots/msa-plot.R")
 source("R/gradient.R")
-source("R/ggvis.R")
+source("R/plots/ggvis.R")
 source("R/plate-visualization.R")
 
 source("R/ShinyApp/server.R")
@@ -17,8 +17,8 @@ library(shiny)
 options(shiny.trace=FALSE, shiny.error=browser)
 
 
-readings <- get_readings()
-runsmap <- get_runs_map()
+readings <- get_readings(factorize = TRUE)
+runsmap <- get_runs_map(factorize = TRUE)
 msa_table <- get_msa_table()
 mfg_table <- get_mfg_table()
 mfg_summary <- get_mfg_summary()

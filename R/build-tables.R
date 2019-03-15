@@ -1,6 +1,8 @@
 # build-tables.R
 #
 # Build the "working" tables from the raw data and mapping files.
+#
+# Note that this will work with either SQL tables or tibbles.
 
 
 library(dplyr)
@@ -20,19 +22,13 @@ build_shift_order_table <- function(readings) {
 
 
 # This should work regardless of the data source (SQL database or tibbles).
-build_mfg_table <- function(readings, mfg_map, shift_order) {
+build_mfg_table <- function(readings, mfg_map, shift_order, factorize = TRUE) {
   
   # Equate Mfg rows/cols with Assay rows/cols:
   rows <- data.frame(MfgRow=1:8, AssayRow=1:8)
   cols <- data.frame(MfgCol=1:12, AssayCol=1:12)
   
-  well_names <- 
-    expand.grid(AssayCol=1:12, AssayRow=1:8) %>%
-    mutate(Well=paste0(chartr(paste0(1:8, collapse=""),
-                              paste0(LETTERS[1:8], collapse=""),
-                              AssayRow),
-                       AssayCol),
-           WellOrder=as.numeric(seq_len(n())))
+  well_names <- get_wells(factorize)
   
   mfg_table <-
     mfg_map %>%
@@ -45,7 +41,6 @@ build_mfg_table <- function(readings, mfg_map, shift_order) {
     mutate(WellID=seq_len(n())) %>%
     select(WellID, MfgPlate, Well, AssayRow, AssayCol, 
            WellOrder, Day, Shift, Run, RunOrder, A450, A650)
-  
   
   return(mfg_table)
 }
@@ -80,15 +75,9 @@ build_msa_map <- function(msa_mfg, msa_assembly) {
 }
 
 
-build_msa_table <- function(readings, msa_map, msa_runs) {
+build_msa_table <- function(readings, msa_map, msa_runs, factorize = TRUE) {
   
-  well_names <- 
-    expand.grid(AssayCol=1:12, AssayRow=1:8) %>%
-    mutate(Well=paste0(chartr(paste0(1:8, collapse=""),
-                              paste0(LETTERS[1:8], collapse=""),
-                              AssayRow),
-                       AssayCol),
-           WellOrder=as.numeric(seq_len(n())))
+  well_names <- get_wells(factorize)
   
   # Convert strips to columns:
   assay_cols <- data.frame(AssayStrip=rep(1:6, each=2), AssayCol=1:12)

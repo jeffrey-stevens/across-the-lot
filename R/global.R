@@ -2,6 +2,7 @@
 #
 # Various global constants, paths and data "getter" functions.
 
+library(dplyr)
 
 
 # Global constants --------------------------------------------------------
@@ -90,12 +91,8 @@ DATABASE <- file.path( GENERATED_DIR, "alldata.sqlite")
 
 # Utility functions -------------------------------------------------------
 
-get_wells <- function() {
-  # dplyr conflicts with plyr:
-  if ( "package:plyr" %in% search() ) {
-    detach("package:plyr")
-  }
-  library(dplyr)
+get_wells <- function(factorize = TRUE) {
+  # Convert "Well" to an ordered factor?
   
   well_names <- 
     expand.grid(AssayCol=1:12, AssayRow=1:8) %>%
@@ -105,8 +102,13 @@ get_wells <- function() {
                        paste0(LETTERS[1:8], collapse=""),
                        AssayRow),
                 AssayCol),
-            WellOrder=as.numeric(seq_len(n()))) %>%
-    mutate(Well=ordered(Well, levels=Well))  # Sort it...
+            WellOrder=as.numeric(seq_len(n())))
+  
+  if (factorize) {
+    well_names <-
+      well_names %>%
+      mutate( Well = ordered(Well, levels=Well) )  # Sort it...
+  }
   
   return(well_names)
 }

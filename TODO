@@ -3,7 +3,6 @@ Todos
 
 Tasks
 
-* Reduce tables to normal form
 * Fix column naming for the MSA plates?
 * Remove all hard path dependencies
 * Reorder MSARunsMap
@@ -11,7 +10,6 @@ Tasks
 
 Projects
 
-* Migrate all data to a SQLite database
 * Create a testing framework
 
 

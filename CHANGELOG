@@ -30,3 +30,11 @@ that it conforms to relational normal form.
 * Tweaked the Powerwave scripts.  Moved them under a "readings" folder.
 * Collected all table-building functions under the "build_tables.R" script.
 Added database entries to all generated tables.
+
+
+03/14/2019 JRS
+
+* Collected all plotting-related scripts together under the "plot" directory.  Removed some scripts that were no longer referenced.
+* Collected the database-related scripts together under the "db" directory.  Removed dependencies on the database (will load the CSV files directly).
+* Added a "factorize" argument to the load functions so that (ordered) factor
+conversion can be bypassed for the database.
