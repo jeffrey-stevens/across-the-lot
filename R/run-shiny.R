@@ -1,11 +1,11 @@
 source("R/global.R")
 
-source("R/stats.R")
+source("R/read-data.R")
 
 source("R/plots/mfg-plot.R")
-source("R/plots/plots/runs-plot.R")
+source("R/plots/runs-plot.R")
 source("R/plots/msa-plot.R")
-source("R/gradient.R")
+source("R/plots/gradient.R")
 source("R/plots/ggvis.R")
 source("R/plate-visualization.R")
 
@@ -14,24 +14,73 @@ source("R/ShinyApp/ui.R")
 
 library(shiny)
 
-options(shiny.trace=FALSE, shiny.error=browser)
+options(shiny.trace=FALSE)
 
 
-readings <- get_readings(factorize = TRUE)
-runsmap <- get_runs_map(factorize = TRUE)
-msa_table <- get_msa_table()
-mfg_table <- get_mfg_table()
-mfg_summary <- get_mfg_summary()
 
-days <- max(readings$Day)
-mfg_min <- min(mfg_table$MfgPlate)
-mfg_max <- max(mfg_table$MfgPlate)
-ymax450 <- max(mfg_table$A450)
-ymax650 <- max(mfg_table$A650)
+# Constants ---------------------------------------------------------------
 
-runApp(list(ui=build_ui(no.days=days, mfg.min=mfg_min, mfg.max=mfg_max,
-                        ymax450=ymax450, ymax650=ymax650),
-            server=build_server(readings, runsmap, msa_table, mfg_table,
-                                mfg_summary)),
-       port=5109, 
-       launch.browser=interactive())
+SHINY_PORT <- 5109
+
+
+# Functions ---------------------------------------------------------------
+
+
+# Build all the MSA tables
+#
+# This helps save memory buy GC'ing the intermediate tables...
+build_msa <- function(readings) {
+  
+  msa_mfg <- get_msa_mfg_map()
+  msa_assembly <- get_msa_assembly_map()
+  msa_map <- build_msa_map(msa_mfg, msa_assembly, factorize = TRUE)
+  
+  msa_runs <- get_msa_runs_map(factorize = TRUE)
+  msa_table <- build_msa_table(readings, msa_map, msa_runs, factorize = TRUE)
+  
+  return(msa_table)
+}
+
+
+# Build all Mfg tables
+build_mfg <- function(readings) {
+  
+  shift_order <- build_shift_order_table(readings)
+  mfg_map <- collate_mfg_maps(factorize = TRUE) 
+  
+  mfg_table <- build_mfg_table(readings, mfg_map, shift_order, factorize = TRUE)
+  
+  return(mfg_table)
+}
+
+
+run_shiny <- function(debug = FALSE) {
+  
+  if (debug) {
+    warning("Shiny debugging isn't implemented yet...")
+  }
+  
+  # Store the tables in-memory, for faster access
+  readings <- get_readings(factorize = TRUE)
+  runs_map <- get_runs_map(factorize = TRUE)
+  msa_table <- build_msa(readings)
+  mfg_table <- build_mfg(readings)
+  summary_table <- build_summary_table(mfg_table)
+  
+  days <- max(readings$Day)
+  mfg_min <- min(mfg_table$MfgPlate)
+  mfg_max <- max(mfg_table$MfgPlate)
+  ymax450 <- max(mfg_table$A450)
+  ymax650 <- max(mfg_table$A650)
+  
+  
+  # Create the parameter list for Shiny
+  ui <- build_ui( no.days = days, mfg.min = mfg_min, mfg.max = mfg_max,
+                  ymax450 = ymax450, ymax650 = ymax650 )
+  server <- build_server(readings, runs_map, msa_table, mfg_table,
+                         summary_table)
+   
+  runApp( list(ui = ui, server = server), port = SHINY_PORT,
+          launch.browser = interactive() )
+}
+

@@ -1,5 +1,5 @@
-library(plyr)
 library(reshape2)
+
 
 NUM_POOL_A <- 38
 NUM_POOL_B <- 30
@@ -63,7 +63,7 @@ table(msa_map_2[,c("PoolPlateID", "Pool")])
 
 sample(877)
 msa_map_3 <- 
-  ddply(msa_map_2, .(MSAPlate),
+  plyr::ddply(msa_map_2, .(MSAPlate),
         function(df) {
           cbind(df, AssayStrip=sample(1:6))
         })

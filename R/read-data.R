@@ -1,4 +1,4 @@
-# data-file.R
+# read-data.R
 #
 # Functions to read data and mapping files.
 

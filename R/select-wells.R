@@ -1,5 +1,4 @@
 library(stringr)
-library(plyr)
 
 
 subset_wells <- function(tab, rowname="AssayRow", colname="AssayCol",

@@ -6,6 +6,7 @@ Tasks
 * Fix column naming for the MSA plates?
 * Remove all hard path dependencies
 * Reorder MSARunsMap
+* Activate Shiny debugging
 
 
 Projects

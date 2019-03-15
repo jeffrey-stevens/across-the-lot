@@ -18,11 +18,8 @@ MFG_MAX <- 601
 
 # ----- Directories -----
 
-# This is to get around hard-coded paths, probably due to the fact
-# that Shiny would change the working directory.
-# I should find a way of removing hard-path dependencies...
+# Find the project root directory
 ROOT_DIR <- rprojroot::find_rstudio_root_file()
-message("Implementing a temporary work-around for hard-path dependencies.")
 
 DATA_DIR <- file.path(ROOT_DIR, "data")
 

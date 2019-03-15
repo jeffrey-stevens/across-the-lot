@@ -8,7 +8,6 @@ source("R/global.R")
 source("R/readings/parse-powerwave.R")
 
 library(stringr)
-library(plyr)
 
 
 # Parse and collect all the raw PowerWave files of a shift into a single list,
