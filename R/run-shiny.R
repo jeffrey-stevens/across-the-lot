@@ -1,6 +1,7 @@
 source("R/global.R")
 
 source("R/read-data.R")
+source("R/build-tables.R")
 
 source("R/plots/mfg-plot.R")
 source("R/plots/runs-plot.R")
@@ -33,7 +34,7 @@ build_msa <- function(readings) {
   
   msa_mfg <- get_msa_mfg_map()
   msa_assembly <- get_msa_assembly_map()
-  msa_map <- build_msa_map(msa_mfg, msa_assembly, factorize = TRUE)
+  msa_map <- build_msa_map(msa_mfg, msa_assembly)
   
   msa_runs <- get_msa_runs_map(factorize = TRUE)
   msa_table <- build_msa_table(readings, msa_map, msa_runs, factorize = TRUE)
