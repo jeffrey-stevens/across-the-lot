@@ -1,0 +1,31 @@
+Package: xlot
+Title: Across-the-lot testing of an ELISA plate production run
+Version: 0.0.0.9000
+Authors@R: 
+    person(given = "Jeffrey",
+           family = "Stevens",
+           role = c("aut", "cre"),
+           email = "first.last@example.com")
+Description: A Shiny app for exploring test data of an entire ELISA plate production run.
+License: GPL-3
+Encoding: UTF-8
+LazyData: true
+Imports: 
+    dplyr,
+    magrittr,
+    gridExtra,
+    stringr,
+    lubridate,
+    ggvis,
+    RColorBrewer,
+    shiny,
+    ggplot2,
+    gtable,
+    readr,
+    reshape2,
+    plyr
+Suggests: 
+    DBI,
+    RSQLite,
+    dbplyr,
+    manipulate
