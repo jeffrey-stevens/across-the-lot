@@ -1,21 +1,19 @@
-library(shiny)
-library(ggvis)
 
 
 build_ui <- function(no.days=1, mfg.min=1, mfg.max=601,
                      ymax450=1.0, ymax650=0.07) {
-  
+
   navbarPage("100% testing of an ELISA plate production run",
-             
+
     tabPanel("Run order",
        sidebarLayout(
          sidebarPanel(
-           sliderInput("day", "Day", 
+           sliderInput("day", "Day",
                        value=1,
                        min=1,
                        max=no.days,
                        step=1, round=TRUE),
-           radioButtons("shift", "Shift", 
+           radioButtons("shift", "Shift",
                         choices=c("Day"="Day", "Evening"="Evening"),
                         selected="Day", inline=TRUE),
            radioButtons("wl", "Wavelength",
@@ -29,23 +27,23 @@ build_ui <- function(no.days=1, mfg.min=1, mfg.max=601,
            )
          )
       ),
-    
+
     tabPanel("MSA",
        sidebarLayout(
          sidebarPanel(
            # Include plot options here...
-           
+
            ),
          mainPanel(
            plotOutput("msaplot")
            )
          )
        ),
-    
+
     tabPanel("Mfg plates",
        sidebarLayout(
          sidebarPanel(
-           
+
            conditionalPanel(
               condition="input.tabset == 'visplate'",
               sliderInput("mfgplate", "Mfg plate",
@@ -58,12 +56,12 @@ build_ui <- function(no.days=1, mfg.min=1, mfg.max=601,
                           min=0, max=ymax450, value=c(0, ymax450)),
               selectInput("palette", "Palette",
                           choices=c("Seq - Greens"="Greens",
-                                    "Seq - Blues"="Blues", 
+                                    "Seq - Blues"="Blues",
                                     "Seq - Reds"="Reds",
                                     "Div - Spectral"="Spectral")
                           )
              ),
-           
+
            conditionalPanel(
              condition="input.tabset == 'mfg.mfgorder.tab'",
              textInput("mfg.mfgorder.wells", 'Wells (eg. "A1-B12, A11-H12")',
@@ -98,7 +96,7 @@ build_ui <- function(no.days=1, mfg.min=1, mfg.max=601,
                          "By well"="bywell"),
                selected=c("byrun"))
            ), # mfgplot.tab
-           
+
            conditionalPanel(
              condition="input.tabset == 'mfgvar'",
              textInput("wells", 'Wells (eg. "A1-B12, A11-H12")',
@@ -110,7 +108,7 @@ build_ui <- function(no.days=1, mfg.min=1, mfg.max=601,
                          min=0, max=ymax450, value=c(0,ymax450),
                          round=-2),
              checkboxGroupInput("geoms", "OD layers",
-                          choices=c("Points"="points", 
+                          choices=c("Points"="points",
                                     "Par. coord."="parcoord",
                                     "Means"="means",
                                     "Connected means"="connect"),
@@ -123,7 +121,7 @@ build_ui <- function(no.days=1, mfg.min=1, mfg.max=601,
              checkboxGroupInput("options", "Options",
                                 choices=c("Jitter"="jitter", "Run coloring"="color.runs"))
              ),
-           
+
            conditionalPanel(
              condition="input.tabset == 'gradplot'",
              radioButtons("gradplottype", "Plot type",
@@ -134,7 +132,7 @@ build_ui <- function(no.days=1, mfg.min=1, mfg.max=601,
 #                                     "None"="none"),
 #                           selected="histogram")
             ),
-           
+
            conditionalPanel(
              condition="input.tabset == 'mfg.active.tab'",
              sliderInput("mfg.active.xrange", "Mfg plate range",
@@ -150,9 +148,9 @@ build_ui <- function(no.days=1, mfg.min=1, mfg.max=601,
                          "By well"="bywell"),
                selected=c("byrun"))
            )
-           
+
           ),
-         
+
          mainPanel(
            tabsetPanel(
              tabPanel(title="Plate",
@@ -170,16 +168,16 @@ build_ui <- function(no.days=1, mfg.min=1, mfg.max=601,
                       plotOutput("gradplot", width="500px", height="500px"),
                       value="gradplot"),
              tabPanel(title="Interactive",
-                      ggvisOutput("mfgActivePlot"),
+                      ggvis::ggvisOutput("mfgActivePlot"),
                       dataTableOutput("mfg.active.data"),
                       value="mfg.active.tab"),
              id="tabset"
              )
            )
-         
+
          )  # sidebarLayout
        )  # tabPanel
-    
+
   )  # navbarPage
-  
+
 }

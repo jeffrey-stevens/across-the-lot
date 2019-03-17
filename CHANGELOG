@@ -56,3 +56,4 @@ conversion can be bypassed for the database.
 
 * Deleted main.R (no longer necessary).  Removed script loading from
 run-shiny.R.  Added the "scripts" folder to .Rbuildignore.
+* Removed all "source" and "library" references from all the source files.

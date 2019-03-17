@@ -5,31 +5,28 @@
 # Note that this will work with either SQL tables or tibbles.
 
 
-library(dplyr)
-
-
 build_shift_order_table <- function(readings) {
-  
+
   shift_order <-
     readings %>%
     select(Day, Shift) %>%
     unique() %>%
     arrange(Day, Shift) %>%
     mutate(RunOrder=seq_len(n()))
-  
+
   return(shift_order)
 }
 
 
 # This should work regardless of the data source (SQL database or tibbles).
 build_mfg_table <- function(readings, mfg_map, shift_order, factorize = TRUE) {
-  
+
   # Equate Mfg rows/cols with Assay rows/cols:
   rows <- data.frame(MfgRow=1:8, AssayRow=1:8)
   cols <- data.frame(MfgCol=1:12, AssayCol=1:12)
-  
+
   well_names <- get_wells(factorize)
-  
+
   mfg_table <-
     mfg_map %>%
     inner_join(readings, by = c("Day", "Shift", "Run") ) %>%
@@ -39,15 +36,15 @@ build_mfg_table <- function(readings, mfg_map, shift_order, factorize = TRUE) {
     inner_join(shift_order, by = c("Day", "Shift") ) %>%
     arrange(MfgPlate, AssayRow, AssayCol) %>%  # Set the well ordering...
     mutate(WellID=seq_len(n())) %>%
-    select(WellID, MfgPlate, Well, AssayRow, AssayCol, 
+    select(WellID, MfgPlate, Well, AssayRow, AssayCol,
            WellOrder, Day, Shift, Run, RunOrder, A450, A650)
-  
+
   return(mfg_table)
 }
 
 
 build_summary_table <- function(mfg_table) {
-  
+
   summary_tab <-
     mfg_table %>%
     group_by(Day, Shift, Run, MfgPlate) %>%
@@ -58,31 +55,31 @@ build_summary_table <- function(mfg_table) {
               Median650=median(A650), Rang650=diff(range(A650)),
               RelRange650=diff(range(A650))/mean(A650)*100) %>%
     arrange(MfgPlate)
-    
+
   return(summary_tab)
 }
 
 
 build_msa_map <- function(msa_mfg, msa_assembly) {
-  
-  msa_map <- 
+
+  msa_map <-
     msa_mfg %>%
     inner_join(msa_assembly, by = "PoolPlateID" ) %>%
     select(MSAPlate, AssayStrip, MfgPlate, Pool, MfgStrip = PoolPlateStrip) %>%
     arrange(MSAPlate, AssayStrip)
-  
+
   return(msa_map)
 }
 
 
 build_msa_table <- function(readings, msa_map, msa_runs, factorize = TRUE) {
-  
+
   well_names <- get_wells(factorize)
-  
+
   # Convert strips to columns:
   assay_cols <- data.frame(AssayStrip=rep(1:6, each=2), AssayCol=1:12)
-  
-  msa_table <- 
+
+  msa_table <-
     msa_map %>%
     inner_join(assay_cols, by = "AssayStrip") %>%
     mutate(MfgCol=ifelse(AssayCol %% 2 == 1,
@@ -96,7 +93,7 @@ build_msa_table <- function(readings, msa_map, msa_runs, factorize = TRUE) {
            AssayRow, WellOrder, MfgPlate, Pool, MfgStrip, MfgCol, MfgRow,
            A450, A650) %>%
     arrange(Day, Shift, Run, WellOrder)
-  
-  
+
+
   return(msa_table)
 }

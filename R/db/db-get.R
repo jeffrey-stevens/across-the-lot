@@ -1,7 +1,4 @@
 
-library(dplyr)
-
-
 # ----- Table "getter" functions -----
 
 get_readings_tbl <- function(con) {

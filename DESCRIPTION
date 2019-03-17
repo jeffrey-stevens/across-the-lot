@@ -13,7 +13,6 @@ LazyData: true
 Imports: 
     dplyr,
     magrittr,
-    gridExtra,
     stringr,
     lubridate,
     ggvis,
@@ -22,7 +21,6 @@ Imports:
     ggplot2,
     gtable,
     readr,
-    reshape2,
     plyr
 Suggests: 
     DBI,

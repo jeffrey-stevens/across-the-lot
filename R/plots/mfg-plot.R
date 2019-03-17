@@ -12,33 +12,28 @@
 #    the group coloring???
 
 
-
-source("R/parse-wells-expr.R")
-
-library(ggplot2)
-library(gridExtra)
-library(dplyr)
-library(gtable)
+#' @importFrom gtable ggplot_gtable ggplot_build
+NULL
 
 
 plot_mfg <- function(mfg_table,
                      mfg.range=range(mfg_table$MfgPlate), od.range=NULL,
                      wells="A1-H12",
                      od.geoms="points", var.plot="cv", alpha=1,
-                     color.runs=FALSE, jitter=FALSE, 
+                     color.runs=FALSE, jitter=FALSE,
                      color.wells=FALSE) {
   # od.geoms=c("points", "means", "connected", "parcoord")
   # var.plot:  c("sd", "cv", "range", "relrange" "none")
-  
-  
+
+
   # First, get the wells to include:
   selection <- select_wells(wells)
 
-  mfg_table_sub <- 
+  mfg_table_sub <-
     mfg_table %>%
     filter(between(MfgPlate, mfg.range[[1]], mfg.range[[2]])) %>%
     inner_join(selection, by=c(AssayRow="Row", AssayCol="Column"))
-  
+
   emptytab <- identical(nrow(mfg_table_sub), 0L)
 
   # Want the statistics to be calculated on the *subset*...So, I can't use
@@ -49,78 +44,78 @@ plot_mfg <- function(mfg_table,
     summarise(MeanOD=mean(A450), StDev=sd(A450),
               Range=diff(range(A450)))  %>%
     mutate(CV=StDev/MeanOD*100, RelRange=Range/MeanOD*100)
-  
+
   # If an OD range isn't specified, then adjust it to the range
   # of the current plot
-  if (is.null(od.range)) od.range <- c(0, max(mfg_table$A450)) 
+  if (is.null(od.range)) od.range <- c(0, max(mfg_table$A450))
   # !!! Actually, specifying NA for the range should work...
-  
+
   # Clip out-of-range points:
-  tab_clip_low <- 
+  tab_clip_low <-
     mfg_table_sub %>% filter(A450 < od.range[[1]])
   tab_clip_high <-
     mfg_table_sub %>% filter(A450 > od.range[[2]])
-  tab_clip_bet <- 
+  tab_clip_bet <-
     mfg_table_sub %>% filter(between(A450, od.range[[1]], od.range[[2]]))
-  
+
   # Clip out-of-range points (may not be necessary here...)
-  sum_clip_low <- 
+  sum_clip_low <-
     summary_tab %>% filter(MeanOD < od.range[[1]])
   sum_clip_high <-
     summary_tab %>% filter(MeanOD > od.range[[2]])
-  sum_clip_bet <- 
+  sum_clip_bet <-
     summary_tab %>% filter(between(MeanOD, od.range[[1]], od.range[[2]]))
-  
-  
+
+
   ## Create the plot frames
-  
+
   thm <- theme_bw() + theme(legend.position="none")
-  
+
   od_frame <-
     ggplot() + thm +
     xlim(mfg.range) + ylim(od.range + c(-0.02, 0.02)) +
     labs(x=NULL, y="A450\n") +
     geom_blank()
-  
+
   var_frame <-
     ggplot() + thm +
     xlim(mfg.range) + xlab("\nMfg plate") +
     geom_blank()
-  
-  
+
+
   ## Geoms
-  
+
   if ("points" %in% od.geoms & !emptytab) {
-    
+
     # Add jitter?
     jit <- ifelse(jitter, 0.3, 0)
-    
+
     # Color by when the plate was run?
     if (color.runs) clr <- quote(RunOrder) else clr <- NULL
-    
+
     points_aes <- aes_q(x=quote(MfgPlate), y=quote(A450), color=clr)
-    points_plot <- 
+    points_plot <-
         geom_point(points_aes, data=tab_clip_bet,
           size=1, position=position_jitter(jit))
-    
+
   } else {
     points_plot <- geom_blank()
-  } 
-  
-  
+  }
+
+
   ## These may have to be edited for clipping...
-  
+
   # Plot means
   if ("means" %in% od.geoms & !emptytab) {
-    means_plot <- 
+    means_plot <-
          geom_segment(aes(x=MfgPlate-0.5, y=MeanOD,
                        xend=MfgPlate+0.5, yend=MeanOD),
                    data=summary_tab, color="red", size=1)
   } else {
     means_plot <- geom_blank()
   }
-  
-  
+
+
   # Connect mean values
   if ("connect" %in% od.geoms & !emptytab) {
     connected_plot <- geom_line(aes(x=MfgPlate, y=MeanOD), data=summary_tab,
@@ -128,35 +123,35 @@ plot_mfg <- function(mfg_table,
   } else {
     connected_plot <- geom_blank()
   }
-  
-  
+
+
   # Parallel coordinates
   if ("parcoord" %in% od.geoms & !emptytab) {
-    parcoord_plot <- 
+    parcoord_plot <-
       geom_line(aes(x=MfgPlate, y=A450, color=Well),
               data=tab_clip_bet, alpha=alpha)
   } else {
     parcoord_plot <- geom_blank()
   }
-  
-  
+
+
   # Add rugs for the clipped points
-  rug_bottom <- 
+  rug_bottom <-
     geom_rug(aes(x=MfgPlate, y=A450), data=tab_clip_low,
              position="jitter",
              color="red3", alpha=0.5, sides="b")
-  rug_top <- 
+  rug_top <-
     geom_rug(aes(x=MfgPlate, y=A450), data=tab_clip_high,
              position="jitter",
              color="red3", alpha=0.5, sides="t")
-  
-  
+
+
   # Construct the OD plot
   od_plot <-
     od_frame + points_plot + means_plot + connected_plot +
     parcoord_plot + rug_bottom + rug_top
-  
-  
+
+
   # Variability plot
   if (var.plot %in% c("sd", "cv", "range", "relrange") & !emptytab) {
     if (color.runs) f <- quote(RunOrder) else f <- NULL
@@ -177,8 +172,8 @@ plot_mfg <- function(mfg_table,
                    "relrange"="% Range\n")
     var_aes <- aes_q(xmin=quote(MfgPlate-0.5), xmax=quote(MfgPlate+0.5),
                     ymin=0, ymax=h, fill=f)
-    var_bars <- 
-      geom_rect(var_aes, data=summary_tab#, 
+    var_bars <-
+      geom_rect(var_aes, data=summary_tab#,
                 #width=0)
       )
     var_plot <- var_frame + var_bars + ylim(0, ymax) + ylab(ylab)
@@ -188,14 +183,14 @@ plot_mfg <- function(mfg_table,
     warning("'var.plot' must be one of 'sd', 'cv', 'range' or 'relrange'.")
     var_plot <- NULL
   }
-  
+
   ## Now fit the two together, if necessary
   if (is.null(var_plot)) {
     finalplot <- od_plot
   } else {
     finalplot <- multiplot(od_plot, var_plot)
   }
-  
+
   return(finalplot)
 }
 
@@ -208,11 +203,11 @@ multiplot <- function(plot1, plot2) {
   y_axis_width <- max(plot1_gtab$widths[[3]], plot2_gtab$widths[[3]])
   plot1_gtab$widths[[3]] <- y_axis_width
   plot2_gtab$widths[[3]] <- y_axis_width
-  
+
   newplot <- arrangeGrob(
     plot1_gtab, plot2_gtab,
     nrow=2, ncol=1)
-  
+
   return(newplot)
 }
 
@@ -221,10 +216,10 @@ multiplot <- function(plot1, plot2) {
 points_layer <- function(data, jitter=FALSE, color_runs=FALSE) {
     # Add jitter?
     jit <- ifelse(jitter, 0.3, 0)
-    
+
     # Color by when the plate was run?
     if (color.runs) clr <- quote(RunOrder) else clr <- NULL
-    
+
     points_aes <- aes_q(x=quote(MfgPlate), y=quote(A450), color=clr)
 
     geom_point(points_aes, data=data,
@@ -235,32 +230,32 @@ points_layer <- function(data, jitter=FALSE, color_runs=FALSE) {
 
 hilight_layer <- function(xrange, yrange, interval=25) {
   stopifnot(xrange[[1]] <= xrange[[2]] && yrange[[1]] <= yrange[[2]])
-  
+
   firstdiv <- (xrange[[1]] %/% interval + 1) * interval
   lastdiv <- (xrange[[2]] %/% interval) * interval
-  
+
   if (lastdiv < firstdiv) {
     # The case where there are no intervals inbetween
     divisions <- xrange
   } else {
     # There's at least one division inside
-    divisions <- c(xrange[[1]], 
+    divisions <- c(xrange[[1]],
                    seq(firstdiv, lastdiv, by=interval),
                    xrange[[2]])
   }
-  
+
   n <- length(divisions) - 1
   xmin <- divisions[seq(1, length.out=n)] - 0.5
   xmax <- divisions[seq(2, length.out=n)] + 0.5
-  
+
   # Alternate the colors of the regions
   fill <- as.factor(ifelse((divisions[seq_len(n)] %/% 50) %% 2 == 0, 1L, 2L))
-  
+
   df <- data.frame(division=seq_len(n),
-                   xmin=xmin, xmax=xmax, 
+                   xmin=xmin, xmax=xmax,
                    ymin=yrange[[1]], ymax=yrange[[2]],
                    fill=fill)
-  
+
   geom_rect(aes(xmin=xmin, xmax=xmax,
                   ymin=ymin, ymax=ymax,
                 fill=fill), data=df, alpha=0.3)

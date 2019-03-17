@@ -1,20 +1,18 @@
-library(ggplot2)
-library(dplyr)
 
 plot_msa <- function(msa_table) {
 
   # Plot by run order:
-  plot_order <- 
+  plot_order <-
     unique(msa_table[,c("Day", "Shift", "Run")]) %>%
     arrange(Day, Shift, Run) %>%
     mutate(PlotOrder=as.factor(seq_len(n())),
            Labels=sprintf("D%0d\n%s\nR%0d",
                 Day, substr(Shift, 1, 1), Run))
-  
+
   msa_table_ordered <-
     msa_table %>%
     inner_join(plot_order[,c("Day", "Shift", "Run", "PlotOrder")])
-  
+
   msa_summary <-
     summarise(group_by(msa_table_ordered, PlotOrder),
               MeanOD=mean(A450),
@@ -22,7 +20,7 @@ plot_msa <- function(msa_table) {
     mutate(PlotOrder=as.integer(PlotOrder))
 
   grand_mean <- mean(msa_table$A450)
-  
+
   p <-
     ggplot() + theme_bw() +
     ggtitle("By Run order\n") +
@@ -37,6 +35,6 @@ plot_msa <- function(msa_table) {
       data=msa_table_ordered, position=position_jitter(0.3),
       shape="o", size=2.5)
 
-  
+
   return(p)
 }

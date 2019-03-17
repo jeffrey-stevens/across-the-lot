@@ -1,19 +1,20 @@
-library(ggvis)
-library(dplyr)
+
+#' @import ggvis
+NULL
 
 
 plot_mfg_ggvis <- function(mfg_table, xrange=NULL, yrange=NULL,
                            brushHandler=function(...) invisible(),
                            coloring="byrun") {
   # coloring:  c("none", "byrun", "bywell")
-  
+
   if ( is.null(xrange) || is.na(xrange) ) {
     xrange <- range(mfg_table$MfgPlate)
   }
   if ( is.null(yrange) || is.na(yrange) ) {
     yrange <- c(0, max(mfg_table$A450))
   }
-  
+
   # Get run coloring:
   if ( is.null(coloring) || is.na(coloring) || coloring == "none") {
     fill_q <- ~ 1  # There must be a better way of doing this...
@@ -22,7 +23,7 @@ plot_mfg_ggvis <- function(mfg_table, xrange=NULL, yrange=NULL,
   } else if ( coloring == "bywell" ) {
     fill_q <- ~ WellOrder
   }
-  
+
   hoverHandler <- function(data) {
     id <- data$WellID  # Should drop the data frame...
     plate <- data$MfgPlate
@@ -36,7 +37,7 @@ plot_mfg_ggvis <- function(mfg_table, xrange=NULL, yrange=NULL,
       )
     return(as.character(out))
   }
-  
+
   p <-
     mfg_table %>%
     #mutate(ID=seq_len(nrow(mfg_table))) %>%
@@ -49,8 +50,8 @@ plot_mfg_ggvis <- function(mfg_table, xrange=NULL, yrange=NULL,
     set_options(renderer="canvas") %>%
     add_tooltip(html=hoverHandler, on="hover") %>%
     handle_brush(on_move=brushHandler)
-  
-  return(p) 
+
+  return(p)
 }
 
 
@@ -61,31 +62,31 @@ filter_by_id <- function( mfg_table, ids ) {
     filter( WellID %in% ids ) %>%
     arrange( WellID ) %>%
     select(MfgPlate, Well, Day, Shift, Run, A450, A650)
-  
+
   return(sel_df)
 }
 
 
 sample_handler <- function(items, session, page_loc, plot_loc) {
   if ( is.null(items) || nrow(items) == 0 ) return ()
-  
+
   sel_df <- filter_by_id( mfg_table, items$WellID )
   show(sel_df)
 }
 
 
 # plot_mfg_reactive <- function(mfg_table, outputVar, ...) {
-#   
+#
 #   # Doing it this way ensures that the well IDs line up...
 #   do_brush <- function(items, session, page_loc, plot_loc) {
 #     if ( is.null(items) || nrow(items) == 0 ) return ()
-#     
+#
 #     sel_df <- filter_by_id( items$WellID )
 #     show(sel_df)
 #     outputVar$mfg.active.data <- renderDataTable( sel_df )
 #   }
-#   
+#
 #   p <- plot_mfg_ggvis(mfg_table, brushHandler=do_brush, ...)
-#   
+#
 #   return(p)
 # }
