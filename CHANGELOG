@@ -45,3 +45,8 @@ conversion can be bypassed for the database.
 * Organized the R folder.  Purged some unnecessary files.  Should be all organized.
 * Fixed some issues with Packrat.
 * Cleaned up the run-shiny.R file.
+
+
+03/16/2019 JRS
+
+* Fixed issue of variability plots not displaying.

@@ -21,8 +21,8 @@ library(dplyr)
 library(gtable)
 
 
-plot_mfg <- function(mfg_table, mfg.range=range(mfg_table$MfgPlate),
-                     od.range=NULL,
+plot_mfg <- function(mfg_table,
+                     mfg.range=range(mfg_table$MfgPlate), od.range=NULL,
                      wells="A1-H12",
                      od.geoms="points", var.plot="cv", alpha=1,
                      color.runs=FALSE, jitter=FALSE, 
@@ -33,45 +33,35 @@ plot_mfg <- function(mfg_table, mfg.range=range(mfg_table$MfgPlate),
   
   # First, get the wells to include:
   selection <- select_wells(wells)
-  
 
-  table_sub <- 
+  mfg_table_sub <- 
     mfg_table %>%
     filter(between(MfgPlate, mfg.range[[1]], mfg.range[[2]])) %>%
     inner_join(selection, by=c(AssayRow="Row", AssayCol="Column"))
   
-  
-  emptytab <- identical(nrow(table_sub), 0L)
+  emptytab <- identical(nrow(mfg_table_sub), 0L)
 
+  # Want the statistics to be calculated on the *subset*...So, I can't use
+  # the pre-computed "summary_table" table...This is bound to be slow...
   summary_tab <-
-    table_sub %>%
+    mfg_table_sub %>%
     group_by(Day, Shift, Run, MfgPlate, RunOrder) %>%
     summarise(MeanOD=mean(A450), StDev=sd(A450),
               Range=diff(range(A450)))  %>%
     mutate(CV=StDev/MeanOD*100, RelRange=Range/MeanOD*100)
   
-#     plyr::ddply(table_sub, c("Day", "Shift", "Run", "MfgPlate", "RunOrder"),
-#               function(df) {
-#                 # How would this behave if no input were given?
-#                 m <- mean(df$A450)
-#                 s <- sd(df$A450)
-#                 cv <- ifelse(is.na(s) | m==0, 0, s/m*100)
-#                 r <- diff(range(df$A450))
-#                 rr <- r/m*100
-#                 c(MeanOD=m, StDev=s, CV=cv, Range=r, RelRange=rr)
-#               })
-  
   # If an OD range isn't specified, then adjust it to the range
   # of the current plot
   if (is.null(od.range)) od.range <- c(0, max(mfg_table$A450)) 
+  # !!! Actually, specifying NA for the range should work...
   
   # Clip out-of-range points:
   tab_clip_low <- 
-    table_sub %>% filter(A450 < od.range[[1]])
+    mfg_table_sub %>% filter(A450 < od.range[[1]])
   tab_clip_high <-
-    table_sub %>% filter(A450 > od.range[[2]])
+    mfg_table_sub %>% filter(A450 > od.range[[2]])
   tab_clip_bet <- 
-    table_sub %>% filter(between(A450, od.range[[1]], od.range[[2]]))
+    mfg_table_sub %>% filter(between(A450, od.range[[1]], od.range[[2]]))
   
   # Clip out-of-range points (may not be necessary here...)
   sum_clip_low <- 
@@ -84,16 +74,16 @@ plot_mfg <- function(mfg_table, mfg.range=range(mfg_table$MfgPlate),
   
   ## Create the plot frames
   
+  thm <- theme_bw() + theme(legend.position="none")
+  
   od_frame <-
-    ggplot() +
-    theme_bw() + theme(legend.position="none") +
+    ggplot() + thm +
     xlim(mfg.range) + ylim(od.range + c(-0.02, 0.02)) +
     labs(x=NULL, y="A450\n") +
     geom_blank()
   
   var_frame <-
-    ggplot() +
-    theme_bw() + theme(legend.position="none") +
+    ggplot() + thm +
     xlim(mfg.range) + xlab("\nMfg plate") +
     geom_blank()
   
@@ -274,11 +264,4 @@ hilight_layer <- function(xrange, yrange, interval=25) {
   geom_rect(aes(xmin=xmin, xmax=xmax,
                   ymin=ymin, ymax=ymax,
                 fill=fill), data=df, alpha=0.3)
-}
-
-
-
-test_mfg_plot <- function(...) {
-  mfg_table <- read.csv("../Data tables/MfgMastertable.csv")
-  plot_mfg(mfg_table, ...)
 }

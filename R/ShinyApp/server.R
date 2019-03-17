@@ -44,6 +44,8 @@ build_server <- function(readings, runsmap, msa_table, mfg_table,
     output$mfgvar <-
       renderPlot({
   
+        # Build the arguments list to plot_mfg
+        
         plot_options <- function(names) {
           vals <- names %in% input$options
           names(vals) <- names
@@ -51,16 +53,19 @@ build_server <- function(readings, runsmap, msa_table, mfg_table,
         }
         
         opts <- plot_options(c("color.runs", "jitter"))
+        args <- c( list( mfg_table = mfg_table,
+                         mfg.range = input$mfgrange,
+                         od.range = input$odrange,
+                         wells = input$wells,
+                         od.geoms = input$geoms, var.plot = input$varplot,
+                         alpha = 0.4 ),
+                   opts)
         
-        p <- 
-          do.call(plot_mfg,
-                  c(list(mfg_table=mfg_table, mfg.range=input$mfgrange,
-                         od.range=input$odrange,
-                         wells=input$wells,
-                         od.geoms=input$geoms, var.plot=input$varplot,
-                         alpha=0.4),
-                    opts))
-        show(p)
+        p <- do.call(plot_mfg, args)
+        
+        # show(p)
+        grid::grid.draw(p)
+        
       }, type="windows")
     
     

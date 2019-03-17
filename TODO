@@ -23,12 +23,13 @@ Optional
 
 Features
 
-* Include some spacing in the nav bar.  Change 
+* Include some spacing in the nav bar.
+* Give option of showing CVs as points, lines instead of just bars
+* Replace reactive inputs with a submit button?
 
 
 Bugs
 
-* The variability charts won't display
 * The "interactive" pane sometimes doesn't update; selection has some
   drawing glitches.
 * Sometimes the plot doesn't update when changing the Mfg plate range
@@ -47,3 +48,6 @@ Bugs
 
 * Dynamic updating doesn't work well for number fields (esp. for "Number of
   plates per band").
+  
+* Remove warnings about var.plot being empty...If it is empty, then just give an
+  empty plot.
