@@ -50,3 +50,9 @@ conversion can be bypassed for the database.
 03/16/2019 JRS
 
 * Fixed issue of variability plots not displaying.
+
+
+03/17/2019 JRS
+
+* Deleted main.R (no longer necessary).  Removed script loading from
+run-shiny.R.  Added the "scripts" folder to .Rbuildignore.

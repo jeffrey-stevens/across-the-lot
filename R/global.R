@@ -2,8 +2,6 @@
 #
 # Various global constants, paths and data "getter" functions.
 
-library(dplyr)
-
 
 # Global constants --------------------------------------------------------
 
@@ -80,7 +78,7 @@ MSA_MAP_FILE <- file.path(GENERATED_DIR, "MSAMap.csv")
 MSA_MASTER_MAP_file <- file.path(GENERATED_DIR, "MSAMastermap.csv")
 
 # The table of mapped MSA data
-MSA_MASTER_FILE <- file.path(GENERATED_DIR, "MSAMastertable.csv") 
+MSA_MASTER_FILE <- file.path(GENERATED_DIR, "MSAMastertable.csv")
 
 # The master SQLite database
 DATABASE <- file.path( GENERATED_DIR, "alldata.sqlite")
@@ -90,22 +88,22 @@ DATABASE <- file.path( GENERATED_DIR, "alldata.sqlite")
 
 get_wells <- function(factorize = TRUE) {
   # Convert "Well" to an ordered factor?
-  
-  well_names <- 
+
+  well_names <-
     expand.grid(AssayCol=1:12, AssayRow=1:8) %>%
-    mutate( Well = 
+    mutate( Well =
               paste0(
                 chartr(paste0(1:8, collapse=""),
                        paste0(LETTERS[1:8], collapse=""),
                        AssayRow),
                 AssayCol),
             WellOrder=as.numeric(seq_len(n())))
-  
+
   if (factorize) {
     well_names <-
       well_names %>%
       mutate( Well = ordered(Well, levels=Well) )  # Sort it...
   }
-  
+
   return(well_names)
 }

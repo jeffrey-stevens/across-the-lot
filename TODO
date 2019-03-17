@@ -36,18 +36,18 @@ Bugs
   minimum slidebar.  This is either a problem with grid.draw not
   rendering the plot, or with Shiny not displaying it.  This may be
   due to the dynamic updating behavior of Shiny.
-  
+
 * "Interactive" tab: Does not display data table when Mfg slider is changed.
 
   For some reason the brush isn't triggering after the update.  Apparently
   ggvis doesn't like replotting in the same context...Is there a way of
   destroying the old ggvis object?
-  
+
   It's hard to tell where the problem is exactly...It definitely lies in
   the JavaScript code somewhere...
 
 * Dynamic updating doesn't work well for number fields (esp. for "Number of
   plates per band").
-  
+
 * Remove warnings about var.plot being empty...If it is empty, then just give an
   empty plot.

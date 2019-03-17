@@ -1,4 +1,5 @@
 #' @keywords internal
 #'
-#' @importFrom magrittr %>%
+#' @import dplyr
+#' @import shiny
 "_PACKAGE"
