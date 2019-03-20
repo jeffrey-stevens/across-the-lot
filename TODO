@@ -8,6 +8,7 @@ Tasks
 * Activate Shiny debugging
 * Document each source file
 * Add package versions to DESCRIPTION
+* Eliminate the dependency on the generated "runs map" file
 
 
 Projects

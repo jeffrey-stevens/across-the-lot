@@ -34,8 +34,10 @@ Added database entries to all generated tables.
 
 03/14/2019 JRS
 
-* Collected all plotting-related scripts together under the "plot" directory.  Removed some scripts that were no longer referenced.
-* Collected the database-related scripts together under the "db" directory.  Removed dependencies on the database (will load the CSV files directly).
+* Collected all plotting-related scripts together under the "plot" directory.
+Removed some scripts that were no longer referenced.
+* Collected the database-related scripts together under the "db" directory.
+Removed dependencies on the database (will load the CSV files directly).
 * Added a "factorize" argument to the load functions so that (ordered) factor
 conversion can be bypassed for the database.
 
@@ -65,3 +67,5 @@ run-shiny.R.  Added the "scripts" folder to .Rbuildignore.
 them (some have side effects).
 * Moved all data files to data/extdata.
 * Removed all hard paths to the data files; referenced all with system.path.
+* Removed all subfolders from the R folder.  Renamed the R files to keep them
+organized.

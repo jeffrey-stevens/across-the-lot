@@ -54,6 +54,15 @@ RUNS_RAND_DIR <- file.path( MAPS_DIR, "Runs Randomization")
 
 
 
+# Generated data files ----------------------------------------------------
+
+
+# The record of the runs (day, shift, run-in-shift, plate ID)
+# Not sure if this should be considered generated...
+RUNS_MAP_FILE <- file.path( GENERATED_DIR, "RunsMap.csv" )
+
+
+
 # Utility functions -------------------------------------------------------
 
 get_wells <- function(factorize = TRUE) {
