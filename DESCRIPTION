@@ -27,3 +27,4 @@ Suggests:
     RSQLite,
     dbplyr,
     manipulate
+RoxygenNote: 6.1.1

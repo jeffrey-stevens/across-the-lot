@@ -39,6 +39,14 @@ build_mfg <- function(readings) {
 }
 
 
+#' run_shiny
+#'
+#' @param debug Not yet implemented.
+#'
+#' @return
+#' @export
+#'
+#' @examples
 run_shiny <- function(debug = FALSE) {
 
   if (debug) {

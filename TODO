@@ -4,7 +4,6 @@ Todos
 Tasks
 
 * Fix column naming for the MSA plates?
-* Remove all hard path dependencies
 * Reorder MSARunsMap
 * Activate Shiny debugging
 * Document each source file
@@ -14,7 +13,6 @@ Tasks
 Projects
 
 * Create a testing framework
-* Migrate to an R package
 
 
 Optional

@@ -16,10 +16,7 @@ MFG_MAX <- 601
 
 # ----- Directories -----
 
-# Find the project root directory
-ROOT_DIR <- rprojroot::find_rstudio_root_file()
-
-DATA_DIR <- file.path(ROOT_DIR, "data")
+DATA_DIR <- system.file("extdata", package = "xlot", mustWork = TRUE)
 
 # The location of all intermediate data tables
 RAW_DATA_DIR <- file.path(DATA_DIR, "raw-data")
@@ -55,33 +52,6 @@ MSA_RUNS_FILE <- file.path( MAPS_DIR, "MSARunsMap.csv")
 # The "Runs randomization" directory
 RUNS_RAND_DIR <- file.path( MAPS_DIR, "Runs Randomization")
 
-
-# ----- Generated data and mapping files -----
-
-# The record of the runs (day, shift, run-in-shift, plate ID)
-RUNS_MAP_FILE <- file.path( GENERATED_DIR, "RunsMap.csv" )
-
-# The runs order map
-RUNS_ORDERING_FILE <- file.path(GENERATED_DIR, "ShiftOrdering.csv")
-
-# The file of merged maps and OD readings for the "Manufacturing"
-# (non-MSA) plates
-MFG_MASTER_FILE <- file.path(GENERATED_DIR, "MfgMastertable.csv")
-
-# A file of summary data for the MfgMastertable
-MFG_SUMMARY_FILE <- file.path(GENERATED_DIR, "MfgSummary.csv")
-
-# The mapping data for the embedded MSA
-MSA_MAP_FILE <- file.path(GENERATED_DIR, "MSAMap.csv")
-
-# The MSA master map file
-MSA_MASTER_MAP_file <- file.path(GENERATED_DIR, "MSAMastermap.csv")
-
-# The table of mapped MSA data
-MSA_MASTER_FILE <- file.path(GENERATED_DIR, "MSAMastertable.csv")
-
-# The master SQLite database
-DATABASE <- file.path( GENERATED_DIR, "alldata.sqlite")
 
 
 # Utility functions -------------------------------------------------------

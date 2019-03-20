@@ -10,7 +10,7 @@ library(dbplyr)
 library(dplyr)
 
 
-delete_db <- function(filename = DATABASE) {
+delete_db <- function(filename = "xlot-data.sqlite") {
 
   if (file.exists(filename)) {
     res <- unlink(DATABASE, force = TRUE)
@@ -25,7 +25,7 @@ delete_db <- function(filename = DATABASE) {
 }
 
 
-build_db <- function(filename = DATABASE, overwrite = FALSE) {
+build_db <- function(filename = "xlot-data.sqlite", overwrite = FALSE) {
 
   if (!overwrite && file.exists(filename) ) {
     stop("Database file exists; will not overwrite.")

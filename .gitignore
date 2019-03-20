@@ -11,7 +11,7 @@ packrat/src/*
 Reports/*.html
 
 # Generated data files
-data/generated/*
+inst/extdata/generated/*
 
 # RStudio additions
 .Rproj.user

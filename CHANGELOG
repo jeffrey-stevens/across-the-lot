@@ -57,3 +57,11 @@ conversion can be bypassed for the database.
 * Deleted main.R (no longer necessary).  Removed script loading from
 run-shiny.R.  Added the "scripts" folder to .Rbuildignore.
 * Removed all "source" and "library" references from all the source files.
+
+
+03/20/2019 JRS
+
+* Moved all scripts to the root to prevent devtools::load_all() from loading
+them (some have side effects).
+* Moved all data files to data/extdata.
+* Removed all hard paths to the data files; referenced all with system.path.

@@ -3,13 +3,17 @@
 # Functions to read data and mapping files.
 
 
+#' @importFrom readr col_integer col_character col_double
+NULL
+
+
 # ----- Raw data files for the test ("Mfg") lot -----
 
 get_readings <- function(factorize = TRUE) {
   # factorize:  Shift to an ordered factor?
 
   tab <- readr::read_csv( READINGS_FILE, col_names = TRUE,
-                          col_types = cols(
+                          col_types = readr::cols(
                             Day = col_integer(),
                             Shift = col_character(),
                             Run = col_integer(),
@@ -32,7 +36,7 @@ get_readings <- function(factorize = TRUE) {
 get_runs_map <- function(factorize = TRUE) {
 
   tab <- readr::read_csv( RUNS_MAP_FILE, col_names = TRUE,
-                          col_types = cols(
+                          col_types = readr::cols(
                             Day = col_integer(),
                             Shift = col_character(),
                             Run = col_integer(),
@@ -54,7 +58,7 @@ get_runs_map <- function(factorize = TRUE) {
 get_lost_map <- function(factorize = TRUE) {
 
   tab <- readr::read_csv( LOST_PLATES_FILE, col_names = TRUE,
-                          col_types = cols(
+                          col_types = readr::cols(
                             Day = col_integer(),
                             Shift = col_character(),
                             Run = col_integer(),
@@ -78,14 +82,14 @@ get_lost_map <- function(factorize = TRUE) {
 # The record of plates lost during manufacture
 get_discarded_map <- function() {
   readr::read_csv( DISCARDED_PLATES_FILE, col_names = TRUE,
-                   col_types = cols( MfgPlate = col_integer() ) )
+                   col_types = readr::cols( MfgPlate = col_integer() ) )
 }
 
 
 # Load a *single* mfg map file
 load_mfg_map <- function(filename) {
   readr::read_csv( filename, col_names = TRUE,
-                   col_types = cols(
+                   col_types = readr::cols(
                      Run = col_integer(),
                      MfgPlate = col_integer() ) )
 }
@@ -136,18 +140,18 @@ collate_mfg_maps <- function(rand_dir = RUNS_RAND_DIR, factorize = TRUE) {
 
 get_msa_mfg_map <- function() {
   readr::read_csv( MSA_MFG_FILE, col_names = TRUE,
-                   col_types = cols( PoolPlateID = col_integer(),
-                                     Pool = col_character(),
-                                     MfgPlate = col_integer() ) )
+                   col_types = readr::cols( PoolPlateID = col_integer(),
+                                            Pool = col_character(),
+                                            MfgPlate = col_integer() ) )
 }
 
 
 get_msa_assembly_map <- function() {
   readr::read_csv( MSA_ASSEMBLY_FILE, col_names = TRUE,
-                   col_types = cols( PoolPlateID = col_integer(),
-                                     PoolPlateStrip = col_integer(),
-                                     MSAPlate = col_integer(),
-                                     AssayStrip = col_integer() ) ) %>%
+                   col_types = readr::cols( PoolPlateID = col_integer(),
+                                            PoolPlateStrip = col_integer(),
+                                            MSAPlate = col_integer(),
+                                            AssayStrip = col_integer() ) ) %>%
     select(MSAPlate, AssayStrip, PoolPlateID, PoolPlateStrip) %>%
     arrange(MSAPlate, AssayStrip)
 }
@@ -155,10 +159,10 @@ get_msa_assembly_map <- function() {
 
 get_msa_runs_map <- function(factorize = TRUE) {
   tab <- readr::read_csv( MSA_RUNS_FILE, col_names = TRUE,
-                          col_types = cols( Day = col_integer(),
-                                            Shift = col_character(),
-                                            Run = col_integer(),
-                                            MSAPlate = col_integer() ) )
+                          col_types = readr::cols( Day = col_integer(),
+                                                   Shift = col_character(),
+                                                   Run = col_integer(),
+                                                   MSAPlate = col_integer() ) )
   ## This is somewhat messy...Really you should have 2 tables:  Day shift MSA
   ## plates and Evening shift MSA plates.
 
