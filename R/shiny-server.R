@@ -40,7 +40,7 @@ build_server <- function(readings, runsmap, msa_table, mfg_table,
     output$mfgvar <-
       renderPlot({
 
-        # Build the arguments list to plot_mfg
+        # Build the arguments list to plot_var
 
         plot_options <- function(names) {
           vals <- names %in% input$options
@@ -57,7 +57,7 @@ build_server <- function(readings, runsmap, msa_table, mfg_table,
                          alpha = 0.4 ),
                    opts)
 
-        p <- do.call(plot_mfg, args)
+        p <- do.call(plot_var, args)
 
         # show(p)
         grid::grid.draw(p)
@@ -115,11 +115,11 @@ build_server <- function(readings, runsmap, msa_table, mfg_table,
                    "\n"))
 
         p <-
-          plot_mfg_2(mfg_table, mfg_summary,
+          plot_mfg(mfg_table, mfg_summary,
                      wells=input$mfg.mfgorder.wells, wl=450,
                      layers=layers, nplates=input$mfg.nplates,
                      xrange=input$mfg.xrange, ylim=input$mfg.yrange,
-                     opts=opts)
+                     opt_list=opts)
 
         drawing <- grid.draw(p)
 

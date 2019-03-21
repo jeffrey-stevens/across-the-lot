@@ -1,7 +1,4 @@
 
-#' @importFrom gtable ggplot_gtable ggplot_build
-
-
 ###  Mfg order layers  ------------------------
 
 points_layer <- function(data_tab, wl=450, jitter=FALSE,
@@ -283,7 +280,7 @@ multiplot <- function(...) {
   lapply(gtabs, function(gt) gt$widths[[3]] <- y_axis_width)
 
   newplot <-
-    do.call(arrangeGrob,
+    do.call(gridExtra::arrangeGrob,
       c(gtabs, list(nrow=length(plots), ncol=1))
     )
 

@@ -4,7 +4,7 @@
 ###############################################################################
 
 
-#' import grid
+#' @import grid
 NULL
 
 
@@ -35,7 +35,7 @@ BASE_WELL_COLOR <- rgb(0.3, 1, 0.3)
 
 get_color <- function(value, palette="Blues") {
 	# value: Vector: 0 to 1
-	colfun <- RColorBrewer::colorRamp(brewer.pal(9, palette), space="rgb")
+	colfun <- colorRamp(RColorBrewer::brewer.pal(9, palette), space="rgb")
 	rgbcol <- colfun(value)
 	red <- rgbcol[, 1, drop=TRUE]/255
 	green <- rgbcol[, 2, drop=TRUE]/255

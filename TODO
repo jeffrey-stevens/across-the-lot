@@ -9,6 +9,7 @@ Tasks
 * Document each source file
 * Add package versions to DESCRIPTION
 * Eliminate the dependency on the generated "runs map" file
+* Include some documentation in the MSA pane
 
 
 Projects
@@ -21,6 +22,7 @@ Optional
 * Recreate the Powerwave data files?
 * Connected means:  Skip over missing plates?
 * Migrate assay-plate-pic to its own package!
+* Convert TODO and CHANGELOG to Markdown.
 
 
 Features

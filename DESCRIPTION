@@ -16,12 +16,13 @@ Imports:
     stringr,
     lubridate,
     ggvis,
-    RColorBrewer,
     shiny,
     ggplot2,
     gtable,
     readr,
-    plyr
+    plyr,
+    RColorBrewer,
+    gridExtra
 Suggests: 
     DBI,
     RSQLite,

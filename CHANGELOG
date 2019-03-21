@@ -69,3 +69,7 @@ them (some have side effects).
 * Removed all hard paths to the data files; referenced all with system.path.
 * Removed all subfolders from the R folder.  Renamed the R files to keep them
 organized.
+* Cleaned up plot-mfg.R/plot-mfg-2.R.  Removed clashing functions from
+plot-mfg.R.  Renamed plot-mfg.R to plot-var.R, and plot-mfg-2.R to plot-mfg.R.
+Renamed the plot_mfg function to plot_var, and the plot_mfg_2 function to just
+plot_mfg.
