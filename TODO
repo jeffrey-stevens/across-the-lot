@@ -10,6 +10,7 @@ Tasks
 * Add package versions to DESCRIPTION
 * Eliminate the dependency on the generated "runs map" file
 * Include some documentation in the MSA pane
+* Update packages to latest versions
 
 
 Projects

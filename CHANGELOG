@@ -77,3 +77,8 @@ plot_mfg.
 01/25/2020 JRS
 
 * Converted Packrat over to renv.
+
+01/26/2020 JRS
+
+* Wrapped system.file file paths in functions to prevent staged installation
+errors.
