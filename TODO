@@ -10,7 +10,6 @@ Tasks
 * Add package versions to DESCRIPTION
 * Eliminate the dependency on the generated "runs map" file
 * Include some documentation in the MSA pane
-* Change "Run Order" tab to "Batches".
 * Change "Lines" plot type to "Connected wells"
 
 
