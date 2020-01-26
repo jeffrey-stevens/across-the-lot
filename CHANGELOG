@@ -82,3 +82,4 @@ plot_mfg.
 
 * Wrapped system.file file paths in functions to prevent staged installation
 errors.
+* Updated all packages to latest versions, tested, and took a snapshot.
