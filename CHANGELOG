@@ -73,3 +73,7 @@ organized.
 plot-mfg.R.  Renamed plot-mfg.R to plot-var.R, and plot-mfg-2.R to plot-mfg.R.
 Renamed the plot_mfg function to plot_var, and the plot_mfg_2 function to just
 plot_mfg.
+
+01/25/2020 JRS
+
+* Converted Packrat over to renv.
