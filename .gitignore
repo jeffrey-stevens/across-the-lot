@@ -3,10 +3,6 @@
 **/.Rdata
 **/.RProj.user
 
-# Packrat source and binary directories
-packrat/lib*/
-packrat/src/*
-
 # RMarkdown output
 Reports/*.html
 
@@ -15,3 +11,6 @@ inst/extdata/generated/*
 
 # RStudio additions
 .Rproj.user
+
+# renv folder
+renv/

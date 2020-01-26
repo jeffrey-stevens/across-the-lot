@@ -1,7 +1,8 @@
+^renv$
+^renv\.lock$
 ^LICENSE\.md$
 ^xlot\.Rproj$
 ^\.Rproj\.user$
-^packrat/
 ^\.Rprofile$
 
 ^R/scripts/$
