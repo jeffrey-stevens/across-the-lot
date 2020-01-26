@@ -28,7 +28,7 @@ get_all_data <- function(dir) {
 
 # Collate all the individual (run-by-run) Powerwave tables.
 
-process_data <- function(datadir, outfile = READINGS_FILE) {
+process_data <- function(datadir, outfile = get_readings_file()) {
   data_folders <- list.dirs(datadir, full.names=FALSE, recursive=FALSE)
 
   all_data <-

@@ -12,7 +12,7 @@ NULL
 get_readings <- function(factorize = TRUE) {
   # factorize:  Shift to an ordered factor?
 
-  tab <- readr::read_csv( READINGS_FILE, col_names = TRUE,
+  tab <- readr::read_csv( get_readings_file(), col_names = TRUE,
                           col_types = readr::cols(
                             Day = col_integer(),
                             Shift = col_character(),
@@ -35,7 +35,7 @@ get_readings <- function(factorize = TRUE) {
 
 get_runs_map <- function(factorize = TRUE) {
 
-  tab <- readr::read_csv( RUNS_MAP_FILE, col_names = TRUE,
+  tab <- readr::read_csv( get_runs_map_file(), col_names = TRUE,
                           col_types = readr::cols(
                             Day = col_integer(),
                             Shift = col_character(),
@@ -57,7 +57,7 @@ get_runs_map <- function(factorize = TRUE) {
 # The record of plates lost during testing
 get_lost_map <- function(factorize = TRUE) {
 
-  tab <- readr::read_csv( LOST_PLATES_FILE, col_names = TRUE,
+  tab <- readr::read_csv( get_lost_plates_file(), col_names = TRUE,
                           col_types = readr::cols(
                             Day = col_integer(),
                             Shift = col_character(),
@@ -81,7 +81,7 @@ get_lost_map <- function(factorize = TRUE) {
 
 # The record of plates lost during manufacture
 get_discarded_map <- function() {
-  readr::read_csv( DISCARDED_PLATES_FILE, col_names = TRUE,
+  readr::read_csv( get_discarded_plates_file(), col_names = TRUE,
                    col_types = readr::cols( MfgPlate = col_integer() ) )
 }
 
@@ -96,7 +96,7 @@ load_mfg_map <- function(filename) {
 
 
 # Collate all individual (by-shift) "Runs randomization" files.
-collate_mfg_maps <- function(rand_dir = RUNS_RAND_DIR, factorize = TRUE) {
+collate_mfg_maps <- function(rand_dir = get_runs_rand_dir(), factorize = TRUE) {
 
   map_files <- list.files(rand_dir)
 
@@ -139,7 +139,7 @@ collate_mfg_maps <- function(rand_dir = RUNS_RAND_DIR, factorize = TRUE) {
 # ----- The MSA pool -----
 
 get_msa_mfg_map <- function() {
-  readr::read_csv( MSA_MFG_FILE, col_names = TRUE,
+  readr::read_csv( get_msa_mfg_file(), col_names = TRUE,
                    col_types = readr::cols( PoolPlateID = col_integer(),
                                             Pool = col_character(),
                                             MfgPlate = col_integer() ) )
@@ -147,7 +147,7 @@ get_msa_mfg_map <- function() {
 
 
 get_msa_assembly_map <- function() {
-  readr::read_csv( MSA_ASSEMBLY_FILE, col_names = TRUE,
+  readr::read_csv( get_msa_assembly_file(), col_names = TRUE,
                    col_types = readr::cols( PoolPlateID = col_integer(),
                                             PoolPlateStrip = col_integer(),
                                             MSAPlate = col_integer(),
@@ -158,7 +158,7 @@ get_msa_assembly_map <- function() {
 
 
 get_msa_runs_map <- function(factorize = TRUE) {
-  tab <- readr::read_csv( MSA_RUNS_FILE, col_names = TRUE,
+  tab <- readr::read_csv( get_msa_runs_file(), col_names = TRUE,
                           col_types = readr::cols( Day = col_integer(),
                                                    Shift = col_character(),
                                                    Run = col_integer(),

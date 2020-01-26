@@ -8,5 +8,5 @@ stacks_rand <- sample(stacks)
 stacks_rand_2 <- matrix(stacks_rand, ncol=4)
 
 
-filename <- file.path(PLATE_MAPS, "MfgRandomization.csv")
+filename <- file.path(get_maps_dir(), "MfgRandomization.csv")
 write.csv(stacks_rand_2, filename, row.names=FALSE)

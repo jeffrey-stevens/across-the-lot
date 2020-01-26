@@ -16,41 +16,63 @@ MFG_MAX <- 601
 
 # ----- Directories -----
 
-DATA_DIR <- system.file("extdata", package = "xlot", mustWork = TRUE)
+get_data_dir <- function() {
+  system.file("extdata", package = "xlot", mustWork = TRUE)
+}
 
 # The location of all intermediate data tables
-RAW_DATA_DIR <- file.path(DATA_DIR, "raw-data")
+get_raw_data_dir <- function() {
+  file.path(get_data_dir(), "raw-data")
+}
 
 # The location of all "mapping" files (plate maps, etc.;
 # basically readings metadata.)
-MAPS_DIR <- file.path(DATA_DIR, "maps")
+get_maps_dir <- function() {
+  file.path(get_data_dir(), "maps")
+}
 
 # Directory of generated data and mapping files
-GENERATED_DIR <- file.path(DATA_DIR, "generated")
+get_generated_dir <- function() {
+  file.path(get_data_dir(), "generated")
+}
 
 
 # ----- Raw data and mapping files -----
 
 # The file containing all the raw (unmapped) OD readings
-READINGS_FILE <- file.path(RAW_DATA_DIR, "Readings.csv")
+get_readings_file <- function() {
+  file.path(get_raw_data_dir(), "Readings.csv")
+}
 
 # The record of plates lost during the testing runs
-LOST_PLATES_FILE <- file.path( RAW_DATA_DIR, "LostPlates.csv")
+get_lost_plates_file <- function() {
+  file.path(get_raw_data_dir(), "LostPlates.csv")
+}
 
 # The record of plates discarded during the manufacturing run
-DISCARDED_PLATES_FILE <- file.path( RAW_DATA_DIR, "DiscardedPlates.csv")
+get_discarded_plates_file <- function() {
+  file.path(get_raw_data_dir(), "DiscardedPlates.csv")
+}
 
 # Map of "Pool" plates to the plate's manufacturing number
-MSA_MFG_FILE <- file.path( MAPS_DIR, "MSAMfgMap.csv")
+get_msa_mfg_file <- function() {
+  file.path(get_maps_dir(), "MSAMfgMap.csv")
+}
 
 # Map of how the MSA plates were assembled
-MSA_ASSEMBLY_FILE <- file.path( MAPS_DIR, "MSAAssemblyMap.csv")
+get_msa_assembly_file <- function() {
+  file.path( get_maps_dir(), "MSAAssemblyMap.csv")
+}
 
-MSA_RUNS_FILE <- file.path( MAPS_DIR, "MSARunsMap.csv")
+get_msa_runs_file <- function() {
+  file.path( get_maps_dir(), "MSARunsMap.csv")
+}
 
 
 # The "Runs randomization" directory
-RUNS_RAND_DIR <- file.path( MAPS_DIR, "Runs Randomization")
+get_runs_rand_dir <- function() {
+  file.path( get_maps_dir(), "Runs Randomization")
+}
 
 
 
@@ -59,7 +81,9 @@ RUNS_RAND_DIR <- file.path( MAPS_DIR, "Runs Randomization")
 
 # The record of the runs (day, shift, run-in-shift, plate ID)
 # Not sure if this should be considered generated...
-RUNS_MAP_FILE <- file.path( GENERATED_DIR, "RunsMap.csv" )
+get_runs_map_file <- function() {
+  file.path( get_generated_dir(), "RunsMap.csv" )
+}
 
 
 
