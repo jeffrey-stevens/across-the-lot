@@ -3,15 +3,16 @@
 build_ui <- function(no.days=1, mfg.min=1, mfg.max=601,
                      ymax450=1.0, ymax650=0.07) {
 
-  navbarPage("100% testing of an ELISA production run",
+  navbarPage(
+    "100% testing of an ELISA production run",
 
+    # The Description pane
     tabPanel(
       "Description",
       fluidPage(
         fluidRow(
           column(3),
-          column(6,
-                 HTML("<h1>Description</h1>")),
+          column(6, includeMarkdown(get_description_file()) ),
           column(3)
         )
       ),

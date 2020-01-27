@@ -84,3 +84,4 @@ plot_mfg.
 errors.
 * Updated all packages to latest versions, tested, and took a snapshot.
 * Added a "Description" tab to the UI.
+* Included the Description text as an external markdown file.

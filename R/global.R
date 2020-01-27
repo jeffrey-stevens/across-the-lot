@@ -86,6 +86,13 @@ get_runs_map_file <- function() {
 }
 
 
+# Static assets
+
+get_description_file <- function() {
+  system.file("extdata", "description.md", package = "xlot")
+}
+
+
 
 # Utility functions -------------------------------------------------------
 
