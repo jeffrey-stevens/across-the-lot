@@ -13,7 +13,7 @@ SHINY_PORT <- 5109
 
 # Build all the MSA tables
 #
-# This helps save memory buy GC'ing the intermediate tables...
+# This helps save memory by GC'ing the intermediate tables...
 build_msa <- function(readings) {
 
   msa_mfg <- get_msa_mfg_map()
